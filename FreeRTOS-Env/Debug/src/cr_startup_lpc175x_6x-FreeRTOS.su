@@ -1,0 +1,13 @@
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:237:6:data_init	40	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:246:6:bss_init	24	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:272:1:ResetISR	24	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:329:6:NMI_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:334:6:HardFault_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:339:6:MemManage_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:344:6:BusFault_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:349:6:UsageFault_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:354:6:SVC_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:359:6:DebugMon_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:364:6:PendSV_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:369:6:SysTick_Handler	4	static
+../src/cr_startup_lpc175x_6x-FreeRTOS.c:380:6:IntDefaultHandler	4	static

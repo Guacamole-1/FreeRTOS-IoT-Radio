@@ -1,0 +1,4 @@
+<map id="LCDText_Locate" name="LCDText_Locate">
+<area shape="rect" id="node1" title="Moves the cursor to a specific line and column on the LCD screen." alt="" coords="5,5,125,32"/>
+<area shape="rect" id="node2" href="$group__DELAY.html#ga6cc45d0c2a8b7a8023a34977544c0334" title="Waits for a specified number of microseconds." alt="" coords="173,5,325,32"/>
+</map>

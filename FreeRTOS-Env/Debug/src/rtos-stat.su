@@ -1,0 +1,2 @@
+../src/rtos-stat.c:40:6:TIMER_RuntimeStatsConfig	4	static
+../src/rtos-stat.c:65:10:TIMER_RuntimeStatsGet	4	static

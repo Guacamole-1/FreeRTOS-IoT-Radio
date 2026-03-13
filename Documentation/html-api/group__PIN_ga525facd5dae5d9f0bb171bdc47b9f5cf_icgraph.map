@@ -1,0 +1,7 @@
+<map id="PIN_Value" name="PIN_Value">
+<area shape="rect" id="node1" title="Reads the current value of a GPIO pin." alt="" coords="345,31,429,57"/>
+<area shape="rect" id="node2" href="$group__LED.html#ga05448f68852f7baac7e2be2609275f1f" title="Retrieves the current state of the LED." alt="" coords="187,5,294,32"/>
+<area shape="rect" id="node4" href="$group__NAVBTN.html#ga75e25310d44fbeea6e1e77e44d780ae5" title="Scans the navigation keypad and returns the currently pressed key." alt="" coords="184,56,297,83"/>
+<area shape="rect" id="node3" href="$group__LED.html#ga3b0db98f4b9d8da4c54223aa39ebc557" title="Toggles the current state of the LED (on to off or off to on)." alt="" coords="24,5,117,32"/>
+<area shape="rect" id="node5" href="$group__NAVBTN.html#ga41db65a3ce26c9df16a6cd9d14695da6" title="Detects a new key press (edge detection)." alt="" coords="5,56,136,83"/>
+</map>

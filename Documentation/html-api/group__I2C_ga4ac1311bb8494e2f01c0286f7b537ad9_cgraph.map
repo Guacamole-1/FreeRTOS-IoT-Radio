@@ -1,0 +1,4 @@
+<map id="I2C0_SetFrequency" name="I2C0_SetFrequency">
+<area shape="rect" id="node1" title="Sets the I2C bus frequency." alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node2" href="$group__CLOCK.html#gad9d5673efbf1227fc3f47dcfd1afd1f0" title="Retrieves the peripheral clock frequency." alt="" coords="192,5,329,32"/>
+</map>

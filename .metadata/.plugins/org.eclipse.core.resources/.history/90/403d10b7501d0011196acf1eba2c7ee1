@@ -1,0 +1,29 @@
+/*
+ * display.h
+ *
+ *  Created on: Mar 11, 2026
+ *      Author: guack
+ */
+// install doxygen!!
+#ifndef DISPLAY_H_
+#define DISPLAY_H_
+
+#define DISPLAY_MAX_QUEUE 10
+#define DISPLAY_TICKS_TO_WAIT pdMS_TO_TICKS(100)
+typedef enum {
+	DISP_SUCCESS,
+	DISP_INIT_ERROR,
+	DISP_QUEUE_ERROR
+} DISPLAY_STATUS;
+typedef enum {
+	WRITE_STR
+
+} DISPLAY_type;
+
+typedef struct {
+	DISPLAY_type id;
+	void* args;
+
+} DISPLAY_Item;
+
+#endif /* DISPLAY_H_ */

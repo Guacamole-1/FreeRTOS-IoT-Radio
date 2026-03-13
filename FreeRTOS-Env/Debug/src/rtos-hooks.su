@@ -1,0 +1,3 @@
+../src/rtos-hooks.c:28:6:vApplicationStackOverflowHook	24	static
+../src/rtos-hooks.c:43:6:vApplicationMallocFailedHook	16	static
+../src/rtos-hooks.c:55:6:vAssertCalled	24	static

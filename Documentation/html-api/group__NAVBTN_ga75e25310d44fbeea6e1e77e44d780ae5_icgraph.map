@@ -1,0 +1,4 @@
+<map id="NAVBTN_Read" name="NAVBTN_Read">
+<area shape="rect" id="node1" title="Scans the navigation keypad and returns the currently pressed key." alt="" coords="184,5,297,32"/>
+<area shape="rect" id="node2" href="$group__NAVBTN.html#ga41db65a3ce26c9df16a6cd9d14695da6" title="Detects a new key press (edge detection)." alt="" coords="5,5,136,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="General Purpose I/O (GPIO)" name="General Purpose I/O (GPIO)">
+<area shape="rect" id="node1" title="This module provides an interface to configure and control the GPIO pins of the LPC1769 microcontroll..." alt="" coords="136,5,277,45"/>
+<area shape="rect" id="node2" href="$group__DRIVERS.html" title=" " alt="" coords="5,13,88,38"/>
+</map>

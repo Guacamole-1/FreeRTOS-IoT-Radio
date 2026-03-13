@@ -1,0 +1,5 @@
+<map id="RDA5807M_Seek" name="RDA5807M_Seek">
+<area shape="rect" id="node1" title="Performs an automatic seek operation." alt="" coords="5,31,132,57"/>
+<area shape="rect" id="node2" href="$group__DELAY.html#ga994e2e885ff3c8e4cdaceadb92d78f5e" title="Waits for a specified number of milliseconds." alt="" coords="213,5,355,32"/>
+<area shape="rect" id="node3" href="$group__RDA5807M.html#ga4d96f9263b70ca5400a07692ec4d5857" title="Gets the currently tuned frequency in MHz." alt="" coords="180,56,388,83"/>
+</map>

@@ -1,0 +1,11 @@
+"Task Aware Debugger for GDB" version 25.6.0 (202506250844)
+Copyright 2016-2025 NXP
+==================================
+11:59:20.589 INFO: [ZephyrRTOS] .config file could not be read [/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/Debug/.config (No such file or directory)]
+11:59:20.589 INFO: [TadModel] DSF session ID 0 has started.
+11:59:23.843 INFO: [TadState] TAD state changed: DEBUG_STARTED -> DEBUG_INIT_0 (RESUMED, USER_REQUEST)
+11:59:23.874 INFO: [TadState] TAD state changed: DEBUG_INIT_0 -> DEBUG_INIT_1 (SUSPENDED, SIGNAL)
+11:59:26.771 INFO: [TadState] TAD state changed: DEBUG_INIT_1 -> DEBUG_SUSPENDED (RESUMED, USER_REQUEST)
+11:59:26.914 INFO: [TadState] TAD state changed: DEBUG_SUSPENDED -> DEBUG_SUSPENDED (SUSPENDED, BREAKPOINT)
+11:59:35.369 INFO: [TadState] TAD state changed: DEBUG_SUSPENDED -> DEBUG_RESUMED (RESUMED, USER_REQUEST)
+12:00:12.773 INFO: [TadModel] DSF session ID 0 has ended.

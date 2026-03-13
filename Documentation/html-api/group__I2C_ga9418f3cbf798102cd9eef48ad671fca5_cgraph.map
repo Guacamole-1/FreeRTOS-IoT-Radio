@@ -1,0 +1,4 @@
+<map id="I2C0_ReadByte" name="I2C0_ReadByte">
+<area shape="rect" id="node1" title="Reads a single byte from the I2C bus." alt="" coords="5,5,120,32"/>
+<area shape="rect" id="node2" href="$group__DELAY.html#gaf06050f7d65285a7e7dd2f99f980bd96" title="Retrieves the elapsed time in milliseconds since a given start time." alt="" coords="168,5,337,32"/>
+</map>

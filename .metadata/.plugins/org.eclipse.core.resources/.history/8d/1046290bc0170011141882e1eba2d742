@@ -1,0 +1,29 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include <task_app.h>
+#include <time.h>
+
+/* Kernel includes. */
+#include "FreeRTOS.h"
+
+/* Kernel includes. */
+#include "task.h"
+#include "queue.h"
+
+#include "task_app.h"
+#include "semphr.h"
+
+void APP_Task(void *pvParameters) {
+	xSemaphoreCreateBinry();
+	while (1) {
+	}
+}
+
+int32_t App(void) {
+    if (xTaskCreate(APP_Task, "App", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, NULL) != pdPASS) {
+        return -1;
+    }
+    return 0;
+}
+

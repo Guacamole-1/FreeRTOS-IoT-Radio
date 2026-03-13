@@ -1,0 +1,4 @@
+<map id="RTC_SetSeconds" name="RTC_SetSeconds">
+<area shape="rect" id="node1" title="Sets the RTC time using a UNIX timestamp." alt="" coords="5,5,133,32"/>
+<area shape="rect" id="node2" href="$group__RTC.html#ga14fa105430d9febf19fe275cee4664d8" title="Sets the RTC date and time using calendar format." alt="" coords="181,5,291,32"/>
+</map>

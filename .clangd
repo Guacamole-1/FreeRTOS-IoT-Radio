@@ -1,0 +1,20 @@
+CompileFlags:
+  Compiler: /opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.linux_25.6.0.202501151204/tools/bin/arm-none-eabi-gcc 
+  Add:
+    - "-x"
+    - "c"
+    - "-std=gnu11"
+    - "-DDEBUG"
+    - "-D__CODE_RED"
+    - "-DCORE_M3"
+    - "-D__USE_CMSIS=CMSIS_CORE_LPC17xx"
+    - "-D__LPC17XX__"
+    - "-D__NEWLIB__"
+    - "-I/home/guack/ISEL/6º semestre/SEIoT/CMSIS_CORE_LPC17xx/inc"
+    - "-I/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/rtos/include"
+    - "-I/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/rtos/src/portable/GCC/ARM_CM3"
+    - "-I/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/inc"
+    - "-I/home/guack/ISEL/6º semestre/SEIoT/DRIVERS/inc"
+    - "-mcpu=cortex-m3"
+    - "-mthumb"
+    - "-fno-builtin"

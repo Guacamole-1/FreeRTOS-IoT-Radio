@@ -1,0 +1,4 @@
+<map id="LED_GetState" name="LED_GetState">
+<area shape="rect" id="node1" title="Retrieves the current state of the LED." alt="" coords="5,5,112,32"/>
+<area shape="rect" id="node2" href="$group__PIN.html#ga525facd5dae5d9f0bb171bdc47b9f5cf" title="Reads the current value of a GPIO pin." alt="" coords="160,5,244,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Flash Memory" name="Flash Memory">
+<area shape="rect" id="node1" href="$group__DRIVERS.html" title=" " alt="" coords="5,5,88,31"/>
+<area shape="rect" id="node2" title="This module provides an interface to the internal FLASH memory of the LPC1769 microcontroller." alt="" coords="136,5,241,31"/>
+</map>

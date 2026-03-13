@@ -1,0 +1,4 @@
+<map id="FM Radio Receiver" name="FM Radio Receiver">
+<area shape="rect" id="node1" title="This module provides an interface to the RDA5807M FM radio receiver connected to the LPC1769 via I2C." alt="" coords="136,5,271,31"/>
+<area shape="rect" id="node2" href="$group__DRIVERS.html" title=" " alt="" coords="5,5,88,31"/>
+</map>

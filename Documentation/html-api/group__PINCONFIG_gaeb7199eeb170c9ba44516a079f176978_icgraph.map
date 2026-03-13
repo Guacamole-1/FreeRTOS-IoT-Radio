@@ -1,0 +1,4 @@
+<map id="PINCFG_ResistorMode" name="PINCFG_ResistorMode">
+<area shape="rect" id="node1" title="Configures the pull resistor mode of a pin." alt="" coords="153,5,315,32"/>
+<area shape="rect" id="node2" href="$group__NAVBTN.html#ga160bfdaf9d22257d44dd8aeb438b2aa6" title="Initializes the navigation keypad interface." alt="" coords="5,5,105,32"/>
+</map>

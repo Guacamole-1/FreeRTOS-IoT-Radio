@@ -1,0 +1,28 @@
+/*
+ * display.c
+ *
+ *  Created on: Mar 11, 2026
+ *      Author: guack
+ */
+
+#include "FreeRTOS.h"
+
+/* Kernel includes. */
+#include "task.h"
+#include "queue.h"
+
+#include "display.h"
+#include "delay.h"
+#include "lcdtext.h"
+
+static QueueHandle_t disp_queue;
+
+void DISPLAY_Init(){
+	if(!DELAY_Init() || LCDText_Init()){
+		goto return_error;
+	}
+	disp_queue = xQueueCreate(DISPLAY_MAX_QUEUE,sizeof(DISPLAY_Item));
+
+	return_error:
+	return -1;
+}

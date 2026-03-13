@@ -1,0 +1,4 @@
+<map id="I2C0_Stop" name="I2C0_Stop">
+<area shape="rect" id="node1" title="Generates an I2C STOP condition." alt="" coords="5,5,89,32"/>
+<area shape="rect" id="node2" href="$group__DELAY.html#gaf06050f7d65285a7e7dd2f99f980bd96" title="Retrieves the elapsed time in milliseconds since a given start time." alt="" coords="137,5,307,32"/>
+</map>

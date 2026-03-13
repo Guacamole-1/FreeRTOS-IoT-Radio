@@ -1,0 +1,8 @@
+../src/retarget_printf.c:42:12:__semihost	16	static
+../src/retarget_printf.c:69:12:semihost_write	32	static
+../src/retarget_printf.c:80:12:putchar	16	static
+../src/retarget_printf.c:94:13:printchar	16	static
+../src/retarget_printf.c:106:12:prints	40	static
+../src/retarget_printf.c:142:12:printi	64	static
+../src/retarget_printf.c:184:12:print	64	static
+../src/retarget_printf.c:251:5:printf	16	static
