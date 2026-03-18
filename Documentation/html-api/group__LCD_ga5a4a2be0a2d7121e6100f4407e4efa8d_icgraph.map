@@ -1,7 +1,0 @@
-<map id="LCDText_Locate" name="LCDText_Locate">
-<area shape="rect" id="node1" title="Moves the cursor to a specific line and column on the LCD screen." alt="" coords="568,31,688,57"/>
-<area shape="rect" id="node2" href="$group__LCD.html#gafcc571b369f3355923e69001977fae21" title="Writes a single character to the LCD display." alt="" coords="381,5,520,32"/>
-<area shape="rect" id="node5" href="$group__LCD.html#ga4e16cbd3c5f2aca7ec0106e4f37fcd48" title="Writes two C&#45;strings to specific lines of the LCD display." alt="" coords="5,56,140,83"/>
-<area shape="rect" id="node3" href="$group__LCD.html#gab50a00c42339a1c06d5c1333563fe9cb" title="Writes a C&#45;string to the LCD display." alt="" coords="188,5,333,32"/>
-<area shape="rect" id="node4" href="$group__LCD.html#ga5797ce923cec266550ce040ea0f0d7dd" title="Writes a formatted string to the LCD using a printf&#45;style format string." alt="" coords="17,5,129,32"/>
-</map>

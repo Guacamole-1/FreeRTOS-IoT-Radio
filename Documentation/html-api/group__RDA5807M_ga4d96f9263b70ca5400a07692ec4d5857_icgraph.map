@@ -1,4 +1,0 @@
-<map id="RDA5807M_GetFrequencyFloat" name="RDA5807M_GetFrequencyFloat">
-<area shape="rect" id="node1" title="Gets the currently tuned frequency in MHz." alt="" coords="180,5,388,32"/>
-<area shape="rect" id="node2" href="$group__RDA5807M.html#ga1f72a5aa0326d24e67e6226949947501" title="Performs an automatic seek operation." alt="" coords="5,5,132,32"/>
-</map>

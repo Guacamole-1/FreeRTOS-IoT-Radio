@@ -1,5 +1,0 @@
-<map id="LED_Off" name="LED_Off">
-<area shape="rect" id="node1" title="Turns the LED off." alt="" coords="147,31,220,57"/>
-<area shape="rect" id="node2" href="$group__LED.html#gab278fb7416c57a0720beafac49c11d3a" title="Initializes the LED control API." alt="" coords="15,5,89,32"/>
-<area shape="rect" id="node3" href="$group__LED.html#ga3b0db98f4b9d8da4c54223aa39ebc557" title="Toggles the current state of the LED (on to off or off to on)." alt="" coords="5,56,99,83"/>
-</map>

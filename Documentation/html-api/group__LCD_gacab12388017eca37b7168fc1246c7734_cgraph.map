@@ -1,4 +1,0 @@
-<map id="LCDText_Clear" name="LCDText_Clear">
-<area shape="rect" id="node1" title="Clears the LCD screen and moves the cursor to the home position (0,0)." alt="" coords="5,5,117,32"/>
-<area shape="rect" id="node2" href="$group__DELAY.html#ga994e2e885ff3c8e4cdaceadb92d78f5e" title="Waits for a specified number of milliseconds." alt="" coords="165,5,308,32"/>
-</map>

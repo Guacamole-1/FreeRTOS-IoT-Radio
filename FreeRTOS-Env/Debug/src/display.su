@@ -1,2 +1,0 @@
-../src/display.c:20:16:DISPLAY_Init	8	static
-../src/display.c:31:16:DISPLAY_Send	16	static

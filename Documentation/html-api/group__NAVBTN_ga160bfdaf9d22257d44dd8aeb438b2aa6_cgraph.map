@@ -1,7 +1,0 @@
-<map id="NAVBTN_Init" name="NAVBTN_Init">
-<area shape="rect" id="node1" title="Initializes the navigation keypad interface." alt="" coords="5,81,105,108"/>
-<area shape="rect" id="node2" href="$group__PIN.html#gaf9240714b16db696152e0db140f00fbb" title="Sets the direction of a GPIO pin." alt="" coords="182,5,286,32"/>
-<area shape="rect" id="node3" href="$group__PIN.html#ga13902f416c781690b7f4a0ca9050b667" title="Sets a GPIO pin to logic high." alt="" coords="198,56,270,83"/>
-<area shape="rect" id="node4" href="$group__PINCONFIG.html#ga308879f4eb382f98c382d18fa196ea6a" title="Configures the function of a pin." alt="" coords="169,107,299,133"/>
-<area shape="rect" id="node5" href="$group__PINCONFIG.html#gaeb7199eeb170c9ba44516a079f176978" title="Configures the pull resistor mode of a pin." alt="" coords="153,157,315,184"/>
-</map>

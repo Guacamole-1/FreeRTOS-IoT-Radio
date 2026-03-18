@@ -1,4 +1,0 @@
-<map id="RTC_GetSeconds" name="RTC_GetSeconds">
-<area shape="rect" id="node1" title="Reads the current RTC time as a UNIX timestamp." alt="" coords="5,5,135,32"/>
-<area shape="rect" id="node2" href="$group__RTC.html#ga506e5d1d8d538575e4739d85f4db7ff1" title="Reads the current RTC date and time." alt="" coords="183,5,293,32"/>
-</map>

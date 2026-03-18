@@ -1,4 +1,0 @@
-<map id="RTC_Init" name="RTC_Init">
-<area shape="rect" id="node1" title="Initializes the RTC with a calendar date and time." alt="" coords="180,5,255,32"/>
-<area shape="rect" id="node2" href="$group__RTC.html#ga0b5816606ca6ce6d2e7bdb73dcd82bcb" title="Initializes the RTC using a UNIX timestamp." alt="" coords="5,5,132,32"/>
-</map>

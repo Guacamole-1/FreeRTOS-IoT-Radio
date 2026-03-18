@@ -1,5 +1,0 @@
-<map id="I2C0_Start" name="I2C0_Start">
-<area shape="rect" id="node1" title="Generates an I2C START condition." alt="" coords="141,31,227,57"/>
-<area shape="rect" id="node2" href="$group__I2C.html#gab58d067dd5faf84a43f0732db211afa6" title="Reads a block of data from an I2C slave device." alt="" coords="5,5,93,32"/>
-<area shape="rect" id="node3" href="$group__I2C.html#ga7c53c2a3a650814717bdabfa747f2182" title="Writes a block of data to an I2C slave device." alt="" coords="6,56,93,83"/>
-</map>

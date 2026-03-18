@@ -1,4 +1,4 @@
-13:50:17 **** Incremental Build of configuration Debug for project CMSIS_CORE_LPC17xx ****
+10:22:17 **** Incremental Build of configuration Debug for project CMSIS_CORE_LPC17xx ****
 make -r -j12 all 
 make[1]: Nothing to be done for 'main-build'.
 Performing post-build steps
@@ -6,13 +6,8 @@ arm-none-eabi-size "libCMSIS_CORE_LPC17xx.a" ; # arm-none-eabi-objdump -h -S "li
    text	   data	    bss	    dec	    hex	filename
     400	      4	      0	    404	    194	system_LPC17xx.o (ex libCMSIS_CORE_LPC17xx.a)
  
-13:50:18 **** Incremental Build of configuration Debug for project FreeRTOS-Env ****
+10:22:20 **** Incremental Build of configuration Debug for project FreeRTOS-Env ****
 make -r -j12 all 
-Building file: ../src/display.c
-Invoking: MCU C Compiler
-arm-none-eabi-gcc -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_CMSIS=CMSIS_CORE_LPC17xx -D__LPC17XX__ -D__NEWLIB__ -I"/home/guack/ISEL/6º semestre/SEIoT/CMSIS_CORE_LPC17xx/inc" -I"/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/rtos/include" -I"/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/rtos/src/portable/GCC/ARM_CM3" -I"/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/inc" -I"/home/guack/ISEL/6º semestre/SEIoT/DRIVERS/inc" -O0 -fno-common -g3 -gdwarf-4 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fmerge-constants -fmacro-prefix-map="../src/"= -mcpu=cortex-m3 -mthumb -D__NEWLIB__ -fstack-usage -specs=nano.specs -MMD -MP -MF"src/display.d" -MT"src/display.o" -MT"src/display.d" -o "src/display.o" "../src/display.c"
-Finished building: ../src/display.c
- 
 Building target: FreeRTOS-Env.axf
 Invoking: MCU Linker
 arm-none-eabi-gcc -nostdlib -L"/home/guack/ISEL/6º semestre/SEIoT/CMSIS_CORE_LPC17xx/Debug" -L"/home/guack/ISEL/6º semestre/SEIoT/DRIVERS/Release" -Xlinker -Map="FreeRTOS-Env.map" -Xlinker --cref -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T FreeRTOS-Env_Debug.ld -u _printf_float -o "FreeRTOS-Env.axf" ./src/cr_startup_lpc175x_6x-FreeRTOS.o ./src/crp.o ./src/display.o ./src/main.o ./src/retarget_printf.o ./src/rtos-hooks.o ./src/rtos-stat.o ./src/task_app.o  ./rtos/src/portable/MemMang/heap_4.o  ./rtos/src/portable/GCC/ARM_CM3/port.o  ./rtos/src/portable/Common/mpu_wrappers.o ./rtos/src/portable/Common/mpu_wrappers_v2.o  ./rtos/src/croutine.o ./rtos/src/event_groups.o ./rtos/src/list.o ./rtos/src/queue.o ./rtos/src/stream_buffer.o ./rtos/src/tasks.o ./rtos/src/timers.o    -lDRIVERS -lCMSIS_CORE_LPC17xx

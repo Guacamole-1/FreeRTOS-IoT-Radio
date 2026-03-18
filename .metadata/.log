@@ -1190,3 +1190,63 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64
 
 !ENTRY com.crt.log 1 0 2026-03-11 10:51:51.768
 !MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+!SESSION 2026-03-17 16:29:42.038 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=17.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2026-03-17 16:29:45.519
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.nxp.mcuxpresso.core.datamodels 1 0 2026-03-17 16:29:51.837
+!MESSAGE Recreating part support. No part support available.
+
+!ENTRY com.crt.log 1 0 2026-03-17 16:29:53.857
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+
+!ENTRY com.crt.log 1 0 2026-03-17 16:29:53.857
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+
+!ENTRY com.crt.log 1 0 2026-03-17 16:30:05.564
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+!SESSION 2026-03-18 10:18:55.847 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=17.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.crt.log 1 0 2026-03-18 10:19:06.267
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+
+!ENTRY com.crt.log 1 0 2026-03-18 10:19:06.268
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+
+!ENTRY com.nxp.mcuxpresso.core.datamodels 1 0 2026-03-18 10:19:06.958
+!MESSAGE Recreating part support. No part support available.
+
+!ENTRY com.crt.log 1 0 2026-03-18 10:19:19.964
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+!SESSION 2026-03-18 10:50:32.645 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=17.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2026-03-18 10:50:35.082
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.nxp.mcuxpresso.core.datamodels 1 0 2026-03-18 10:50:42.138
+!MESSAGE Recreating part support. No part support available.
+
+!ENTRY com.crt.log 1 0 2026-03-18 10:50:43.776
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+
+!ENTRY com.crt.log 1 0 2026-03-18 10:50:43.776
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory
+
+!ENTRY com.crt.log 1 0 2026-03-18 10:50:58.049
+!MESSAGE Cannot run program "/opt/mcuxpresso-ide/ide/plugins/com.nxp.mcuxpresso.tools.bin.linux_25.6.0.202501151204/LinkServer": error=2, No such file or directory

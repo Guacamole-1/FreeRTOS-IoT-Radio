@@ -1,7 +1,0 @@
-<map id="LCDText_WriteLine" name="LCDText_WriteLine">
-<area shape="rect" id="node1" title="Writes two C&#45;strings to specific lines of the LCD display." alt="" coords="5,5,140,32"/>
-<area shape="rect" id="node2" href="$group__LCD.html#ga5a4a2be0a2d7121e6100f4407e4efa8d" title="Moves the cursor to a specific line and column on the LCD screen." alt="" coords="568,5,688,32"/>
-<area shape="rect" id="node4" href="$group__LCD.html#gab50a00c42339a1c06d5c1333563fe9cb" title="Writes a C&#45;string to the LCD display." alt="" coords="188,31,333,57"/>
-<area shape="rect" id="node3" href="$group__DELAY.html#ga6cc45d0c2a8b7a8023a34977544c0334" title="Waits for a specified number of microseconds." alt="" coords="736,5,888,32"/>
-<area shape="rect" id="node5" href="$group__LCD.html#gafcc571b369f3355923e69001977fae21" title="Writes a single character to the LCD display." alt="" coords="381,31,520,57"/>
-</map>

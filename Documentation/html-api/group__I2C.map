@@ -1,4 +1,0 @@
-<map id="I2C Communication" name="I2C Communication">
-<area shape="rect" id="node1" title="This module provides an interface to the I2C peripheral of the LPC1769." alt="" coords="136,5,275,31"/>
-<area shape="rect" id="node2" href="$group__DRIVERS.html" title=" " alt="" coords="5,5,88,31"/>
-</map>

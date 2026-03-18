@@ -1,9 +1,0 @@
-<map id="LED_Init" name="LED_Init">
-<area shape="rect" id="node1" title="Initializes the LED control API." alt="" coords="5,81,79,108"/>
-<area shape="rect" id="node2" href="$group__LED.html#gaf842f9996045107cd0841a4f0707fc65" title="Turns the LED off." alt="" coords="155,5,229,32"/>
-<area shape="rect" id="node4" href="$group__LED.html#ga94ffebcdd3b5bbbf9a89e9f9ab52028d" title="Turns the LED on." alt="" coords="156,56,228,83"/>
-<area shape="rect" id="node6" href="$group__PIN.html#gaf9240714b16db696152e0db140f00fbb" title="Sets the direction of a GPIO pin." alt="" coords="140,107,244,133"/>
-<area shape="rect" id="node7" href="$group__PINCONFIG.html#ga308879f4eb382f98c382d18fa196ea6a" title="Configures the function of a pin." alt="" coords="127,157,257,184"/>
-<area shape="rect" id="node3" href="$group__PIN.html#ga652b39254ee8eaf76e63a0284d07e647" title="Sets a GPIO pin to logic low." alt="" coords="305,5,388,32"/>
-<area shape="rect" id="node5" href="$group__PIN.html#ga13902f416c781690b7f4a0ca9050b667" title="Sets a GPIO pin to logic high." alt="" coords="311,56,383,83"/>
-</map>

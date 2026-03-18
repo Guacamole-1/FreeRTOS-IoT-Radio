@@ -1,5 +1,0 @@
-<map id="DELAY_Milliseconds" name="DELAY_Milliseconds">
-<area shape="rect" id="node1" title="Waits for a specified number of milliseconds." alt="" coords="180,31,323,57"/>
-<area shape="rect" id="node2" href="$group__LCD.html#gacab12388017eca37b7168fc1246c7734" title="Clears the LCD screen and moves the cursor to the home position (0,0)." alt="" coords="13,5,125,32"/>
-<area shape="rect" id="node3" href="$group__RDA5807M.html#ga1f72a5aa0326d24e67e6226949947501" title="Performs an automatic seek operation." alt="" coords="5,56,132,83"/>
-</map>

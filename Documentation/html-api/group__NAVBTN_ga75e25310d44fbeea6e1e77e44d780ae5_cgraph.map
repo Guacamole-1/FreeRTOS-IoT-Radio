@@ -1,6 +1,0 @@
-<map id="NAVBTN_Read" name="NAVBTN_Read">
-<area shape="rect" id="node1" title="Scans the navigation keypad and returns the currently pressed key." alt="" coords="5,56,119,83"/>
-<area shape="rect" id="node2" href="$group__PIN.html#ga652b39254ee8eaf76e63a0284d07e647" title="Sets a GPIO pin to logic low." alt="" coords="167,5,250,32"/>
-<area shape="rect" id="node3" href="$group__PIN.html#ga13902f416c781690b7f4a0ca9050b667" title="Sets a GPIO pin to logic high." alt="" coords="173,56,245,83"/>
-<area shape="rect" id="node4" href="$group__PIN.html#ga525facd5dae5d9f0bb171bdc47b9f5cf" title="Reads the current value of a GPIO pin." alt="" coords="167,107,251,133"/>
-</map>

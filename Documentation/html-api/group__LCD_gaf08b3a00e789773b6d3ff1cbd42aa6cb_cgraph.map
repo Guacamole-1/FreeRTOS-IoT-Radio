@@ -1,4 +1,0 @@
-<map id="LCDText_Init" name="LCDText_Init">
-<area shape="rect" id="node1" title="Initializes the LCD and prepares it for use." alt="" coords="5,5,104,32"/>
-<area shape="rect" id="node2" href="$group__PINCONFIG.html#ga308879f4eb382f98c382d18fa196ea6a" title="Configures the function of a pin." alt="" coords="152,5,283,32"/>
-</map>

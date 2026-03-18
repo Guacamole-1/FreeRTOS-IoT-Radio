@@ -1,5 +1,0 @@
-<map id="CLKPWR_GetPClk" name="CLKPWR_GetPClk">
-<area shape="rect" id="node1" title="Retrieves the peripheral clock frequency." alt="" coords="355,5,492,32"/>
-<area shape="rect" id="node2" href="$group__I2C.html#ga4ac1311bb8494e2f01c0286f7b537ad9" title="Sets the I2C bus frequency." alt="" coords="168,5,307,32"/>
-<area shape="rect" id="node3" href="$group__RDA5807M.html#gac42908fd7efd78938cae716ddc9d8e74" title="Initializes the RDA5807M radio receiver." alt="" coords="5,5,120,32"/>
-</map>

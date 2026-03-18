@@ -1,5 +1,0 @@
-<map id="RTC_Init" name="RTC_Init">
-<area shape="rect" id="node1" title="Initializes the RTC with a calendar date and time." alt="" coords="5,31,80,57"/>
-<area shape="rect" id="node2" href="$group__CLOCK.html#ga32b62d3d2dbaa195e58277cdd3fbe036" title="Enables the clock for a peripheral." alt="" coords="128,5,289,32"/>
-<area shape="rect" id="node3" href="$group__RTC.html#ga14fa105430d9febf19fe275cee4664d8" title="Sets the RTC date and time using calendar format." alt="" coords="154,56,263,83"/>
-</map>

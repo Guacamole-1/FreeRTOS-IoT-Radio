@@ -1,8 +1,0 @@
-<map id="PINCFG_Function" name="PINCFG_Function">
-<area shape="rect" id="node1" title="Configures the function of a pin." alt="" coords="316,107,447,133"/>
-<area shape="rect" id="node2" href="$group__I2C.html#ga7386c40b358b807fe6020408c1129404" title="Initializes the I2C peripheral." alt="" coords="181,5,255,32"/>
-<area shape="rect" id="node3" href="$group__RDA5807M.html#gac42908fd7efd78938cae716ddc9d8e74" title="Initializes the RDA5807M radio receiver." alt="" coords="5,31,120,57"/>
-<area shape="rect" id="node4" href="$group__LCD.html#gaf08b3a00e789773b6d3ff1cbd42aa6cb" title="Initializes the LCD and prepares it for use." alt="" coords="169,107,267,133"/>
-<area shape="rect" id="node5" href="$group__LED.html#gab278fb7416c57a0720beafac49c11d3a" title="Initializes the LED control API." alt="" coords="181,157,255,184"/>
-<area shape="rect" id="node6" href="$group__NAVBTN.html#ga160bfdaf9d22257d44dd8aeb438b2aa6" title="Initializes the navigation keypad interface." alt="" coords="168,208,268,235"/>
-</map>

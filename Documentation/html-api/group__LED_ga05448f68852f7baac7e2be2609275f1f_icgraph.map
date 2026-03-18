@@ -1,4 +1,0 @@
-<map id="LED_GetState" name="LED_GetState">
-<area shape="rect" id="node1" title="Retrieves the current state of the LED." alt="" coords="147,5,253,32"/>
-<area shape="rect" id="node2" href="$group__LED.html#ga3b0db98f4b9d8da4c54223aa39ebc557" title="Toggles the current state of the LED (on to off or off to on)." alt="" coords="5,5,99,32"/>
-</map>

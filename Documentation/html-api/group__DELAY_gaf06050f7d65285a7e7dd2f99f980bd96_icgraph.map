@@ -1,8 +1,0 @@
-<map id="DELAY_GetElapsedMillis" name="DELAY_GetElapsedMillis">
-<area shape="rect" id="node1" title="Retrieves the elapsed time in milliseconds since a given start time." alt="" coords="304,56,473,83"/>
-<area shape="rect" id="node2" href="$group__I2C.html#ga9418f3cbf798102cd9eef48ad671fca5" title="Reads a single byte from the I2C bus." alt="" coords="141,5,256,32"/>
-<area shape="rect" id="node4" href="$group__I2C.html#ga08fd00303100f926b695077aa7417061" title="Generates an I2C STOP condition." alt="" coords="157,107,241,133"/>
-<area shape="rect" id="node6" href="$group__I2C.html#gafbbb61ee23a4165d7b8e7b9a6a6a8d9d" title="Writes a single byte on the I2C bus." alt="" coords="141,56,256,83"/>
-<area shape="rect" id="node3" href="$group__I2C.html#gab58d067dd5faf84a43f0732db211afa6" title="Reads a block of data from an I2C slave device." alt="" coords="5,56,93,83"/>
-<area shape="rect" id="node5" href="$group__I2C.html#ga7c53c2a3a650814717bdabfa747f2182" title="Writes a block of data to an I2C slave device." alt="" coords="6,107,93,133"/>
-</map>

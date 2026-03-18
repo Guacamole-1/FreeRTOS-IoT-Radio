@@ -1,4 +1,0 @@
-<map id="RDA5807M_SetFrequencyFloat" name="RDA5807M_SetFrequencyFloat">
-<area shape="rect" id="node1" title="Sets the tuned frequency using floating&#45;point MHz units." alt="" coords="185,5,392,32"/>
-<area shape="rect" id="node2" href="$group__RDA5807M.html#ga5a6b4dfd34ab4a37785ee32cdc963f20" title="Resets the radio receiver." alt="" coords="5,5,137,32"/>
-</map>
