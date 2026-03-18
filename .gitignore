@@ -1,0 +1,14 @@
+*
+!DRIVERS/
+!DRIVERS/inc/
+!DRIVERS/inc/*
+!DRIVERS/src/
+!DRIVERS/src/*
+!FreeRTOS-Env/
+!FreeRTOS-Env/src/
+!FreeRTOS-Env/src/*
+!FreeRTOS-Env/inc/
+!FreeRTOS-Env/inc/*
+!FreeRTOS-Env/rtos/
+!FreeRTOS-Env/rtos/*
+!.gitignore
