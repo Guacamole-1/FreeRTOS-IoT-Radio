@@ -13,16 +13,10 @@
 
 #include "task_app.h"
 #include "semphr.h"
-#include "led.h"
 
 void LED_TASK_ON(void){}
 
 void APP_Task(void *pvParameters) {
-	LED_Init(false);
-	while(1) {
-	vTaskDelay(200);
-	LED_Toggle();
-	}
 }
 
 int32_t App(void) {

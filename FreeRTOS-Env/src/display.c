@@ -8,24 +8,22 @@
 #include "FreeRTOS.h"
 
 /* Kernel includes. */
+#include "portable.h"
+#include "projdefs.h"
 #include "task.h"
 #include "queue.h"
 
 #include "display.h"
-#include "delay.h"
-#include "lcdtext.h"
+#include "Delay.h"
+#include "LCD.h"
+
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_CHARS 16*2
 
-//helper function to count args
-#define _COUNT_ARGS( _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16, N, ...) N
-
-// counts args from 0 to 16
-#define COUNT_ARGS(...)                                 \
-  _COUNT_ARGS(, ##__VA_ARGS__,                          \
-              16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0)
 
 
 static QueueHandle_t disp_queue;
@@ -34,68 +32,111 @@ DISPLAY_STATUS DISPLAY_Init(){
 	if(!DELAY_Init()){
 		return DISP_INIT_ERROR;
 	}
-	disp_queue = xQueueCreate(DISPLAY_MAX_QUEUE,sizeof(DISPLAY_Item));
+	disp_queue = xQueueCreate(DISPLAY_MAX_QUEUE,sizeof(DISPLAY_Item*));
 	if (disp_queue == NULL){
 		return DISP_QUEUE_ERROR;
 	}
 	return DISP_SUCCESS;
 }
 
-DISPLAY_STATUS DISPLAY_Send(DISPLAY_Item* item){
-	if(xQueueSend(disp_queue,item,DISPLAY_TICKS_TO_WAIT) == errQUEUE_FULL){
+
+void free_item(DISPLAY_Item* item){
+  if (item == NULL) return;
+
+  if (item->id == WRITE_STR && item->args != NULL)
+  {
+    vPortFree(((DISPLAY_Args_WS*)item->args)->str);
+  }
+  if(item->args != NULL){
+    vPortFree(item->args);
+  }
+  vPortFree(item);
+}
+
+DISPLAY_Item* copy_item(DISPLAY_Item item){
+  DISPLAY_Item* new_item = pvPortMalloc(sizeof(DISPLAY_Item));
+  new_item->id = item.id;
+  switch (new_item->id)
+    {
+      case WRITE_STR:
+        {
+          new_item->args = pvPortMalloc(sizeof(DISPLAY_Args_WS));
+          memcpy(new_item->args, item.args, sizeof(DISPLAY_Args_WS));
+          DISPLAY_Args_WS* old_args = (DISPLAY_Args_WS*)item.args;
+          DISPLAY_Args_WS* new_args = (DISPLAY_Args_WS*)new_item->args;
+          // copy string
+          new_args->str = pvPortMalloc(strlen(old_args->str) + 1); // +1 for '\0'
+          memcpy(new_args->str, old_args->str, strlen(old_args->str) + 1);
+          break;
+        }
+        break;
+      case CURSOR_SET:
+        new_item->args = pvPortMalloc(sizeof(DISPLAY_Args_CS));
+        memcpy(new_item->args, item.args, sizeof(DISPLAY_Args_CS));
+        break;
+      default:
+        new_item->args = NULL;
+        break;
+    }
+  return new_item;
+}
+
+
+DISPLAY_STATUS DISPLAY_Send(DISPLAY_Item item){
+  DISPLAY_Item* new_item = copy_item(item);
+	if(xQueueSend(disp_queue,&new_item,DISPLAY_TICKS_TO_WAIT) == errQUEUE_FULL){
 		return DISP_QUEUE_FULL;
 	}
 	return DISP_SUCCESS;
 }
-DISPLAY_STATUS DISPLAY_Receive(DISPLAY_Item* recvd_item){
-  return xQueueReceive(disp_queue, (void*)recvd_item, DISPLAY_TICKS_TO_WAIT) == pdPASS ?
+DISPLAY_STATUS DISPLAY_Receive(DISPLAY_Item** recvd_item){
+  return xQueueReceive(disp_queue, recvd_item, DISPLAY_TICKS_TO_WAIT) == pdPASS ?
     DISP_SUCCESS : DISP_QUEUE_EMPTY;
 }
 
 
-void __DISPLAY_Printf(const char* fmt, int count, ...){
+void DISPLAY_Printf(const char* fmt, ...){
   char str[MAX_CHARS+1];
   va_list args;
-  va_start(args, count);
-  vsnprintf(str,MAX_CHARS,fmt,args);
-  DISPLAY_Item item = {WRITE_STR,str};
-  DISPLAY_Send(&item);
+
+  va_start(args, fmt);
+  vsnprintf(str,MAX_CHARS+1,fmt,args);
   va_end(args);
+
+  DISPLAY_Args_WS str_args = {str};
+  DISPLAY_Item item = {WRITE_STR,&str_args};
+  DISPLAY_Send(item);
 }
 
 DISPLAY_STATUS DISPLAY_Manager() {
-  DISPLAY_Item recvd_item = {0};
   while (1) {
-    DISPLAY_Receive(&recvd_item);
-    switch (recvd_item.id) {
-      case WRITE_STR:
-        LCDText_WriteString(((DISPLAY_Args_WS*)recvd_item.args)->str );
-        break;
-      case WRITE_LINE:
-        {
-          DISPLAY_Args_WL* args = (DISPLAY_Args_WL*)recvd_item.args;
-          LCDText_WriteLine(args->str1, args->str2);
-          break;
-        }
-      case CLEAR:
-        LCDText_Clear();
-        break;
-      case LOCATE:
-        {
-          DISPLAY_Args_L* args = (DISPLAY_Args_L*)recvd_item.args;
-          LCDText_Locate(args->line, args->column);
-          break;
-        }
-      case CURSOR_ON:
-        LCDText_CursorOn();
-        break;
-      case CURSOR_OFF:
-        LCDText_CursorOff();
-        break;
-      case KILL:
-        return DISP_SUCCESS;
-      default:
-        break;
+    DISPLAY_Item* recvd_item = NULL;
+    if (DISPLAY_Receive(&recvd_item) != DISP_QUEUE_EMPTY)
+      {
+        switch (recvd_item->id)
+          {
+          case WRITE_STR:
+            LCDText_WriteString(((DISPLAY_Args_WS*)recvd_item->args)->str);
+            break;
+          case CLEAR:
+            LCDText_Clear();
+            break;
+          case CURSOR_SET:
+            {
+              Cursor* args = (Cursor*)recvd_item->args;
+              LCDText_CursorSet(*args);
+              break;
+            }
+          case KILL:
+            free_item(recvd_item);
+            return DISP_SUCCESS;
+          default:
+            break;
+          }
+        free_item(recvd_item);
+      }
+    else {
+      vTaskDelay(pdMS_TO_TICKS(500));
     }
   }
 }
