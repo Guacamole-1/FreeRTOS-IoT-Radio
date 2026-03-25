@@ -2,7 +2,11 @@
 !DRIVERS/
 !DRIVERS/inc/
 !DRIVERS/inc/*
+!DRIVERS/inc/Fields/
+!DRIVERS/inc/Fields/*
 !DRIVERS/src/
+!DRIVERS/src/Fields/
+!DRIVERS/src/Fields/*
 !DRIVERS/src/*
 !FreeRTOS-Env/
 !FreeRTOS-Env/src/
