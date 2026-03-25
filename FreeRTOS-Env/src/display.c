@@ -36,6 +36,7 @@ DISPLAY_STATUS DISPLAY_Init(){
 	if (disp_queue == NULL){
 		return DISP_QUEUE_ERROR;
 	}
+
 	return DISP_SUCCESS;
 }
 
