@@ -16,3 +16,9 @@
 !FreeRTOS-Env/rtos/
 !FreeRTOS-Env/rtos/*
 !.gitignore
+DRIVERS/inc/.#*
+DRIVERS/inc/Fields/.#*
+DRIVERS/src/.#*
+DRIVERS/src/Fields/.#*
+FreeRTOS-Env/src/.#*
+FreeRTOS-Env/inc/.#*
