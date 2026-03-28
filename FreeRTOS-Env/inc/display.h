@@ -22,7 +22,7 @@ typedef enum {
 	WRITE_STR,
 	CLEAR,
 	CURSOR_SET,
-  KILL
+  WRITE_CMD
 } DISPLAY_type;
 
 typedef struct {
@@ -35,10 +35,6 @@ typedef struct {
 } DISPLAY_Args_WS;
 
 
-typedef struct {
-  int line;
-  int column;
-} DISPLAY_Args_CS;
 
 DISPLAY_STATUS DISPLAY_Init();
 DISPLAY_STATUS DISPLAY_Send(DISPLAY_Item item);
