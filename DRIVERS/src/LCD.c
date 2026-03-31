@@ -37,7 +37,7 @@ void lcd_write(lcd_t* LCD){ // writes high, then low
 
 
 void lcd_write8(lcd16_t* LCD16){
-   lcd_t LCD = (lcd_t){.DB = TOP_4(LCD16->DB), .RW=LCD16->RW, .RS = LCD16->RS};
+   lcd_t LCD = (lcd_t){.DB = TOP_4(LCD16->DB), .RS = LCD16->RS};
    lcd_write(&LCD);
    LCD.DB = BOTTOM_4(LCD16->DB);
    lcd_write(&LCD);

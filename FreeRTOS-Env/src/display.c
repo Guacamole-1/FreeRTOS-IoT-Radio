@@ -12,6 +12,7 @@
 #include "projdefs.h"
 #include "task.h"
 #include "queue.h"
+#include "semphr.h"
 
 #include "display.h"
 #include "Delay.h"
@@ -27,11 +28,13 @@
 
 
 static QueueHandle_t disp_queue;
+static SemaphoreHandle_t _init;
 
 DISPLAY_STATUS DISPLAY_Init(){
-	if(!DELAY_Init()){
+	if(DELAY_Init()){
 		return DISP_INIT_ERROR;
 	}
+	LCDText_Init();
 	disp_queue = xQueueCreate(DISPLAY_MAX_QUEUE,sizeof(DISPLAY_Item*));
 	if (disp_queue == NULL){
 		return DISP_QUEUE_ERROR;
@@ -72,8 +75,12 @@ DISPLAY_Item* copy_item(DISPLAY_Item item){
         }
         break;
       case CURSOR_SET:
-        new_item->args = pvPortMalloc(sizeof(DISPLAY_Args_CS));
-        memcpy(new_item->args, item.args, sizeof(DISPLAY_Args_CS));
+        new_item->args = pvPortMalloc(sizeof(Cursor));
+        memcpy(new_item->args, item.args, sizeof(Cursor));
+        break;
+      case WRITE_CMD:
+        new_item->args = pvPortMalloc(sizeof(lcd16_t));
+        memcpy(new_item->args, item.args, sizeof(lcd16_t));
         break;
       default:
         new_item->args = NULL;
@@ -86,6 +93,7 @@ DISPLAY_Item* copy_item(DISPLAY_Item item){
 DISPLAY_STATUS DISPLAY_Send(DISPLAY_Item item){
   DISPLAY_Item* new_item = copy_item(item);
 	if(xQueueSend(disp_queue,&new_item,DISPLAY_TICKS_TO_WAIT) == errQUEUE_FULL){
+    free_item(new_item);
 		return DISP_QUEUE_FULL;
 	}
 	return DISP_SUCCESS;
@@ -128,9 +136,9 @@ DISPLAY_STATUS DISPLAY_Manager() {
               LCDText_CursorSet(*args);
               break;
             }
-          case KILL:
-            free_item(recvd_item);
-            return DISP_SUCCESS;
+          case WRITE_CMD:
+            lcd_write8((lcd16_t*)(recvd_item->args));
+            break;
           default:
             break;
           }

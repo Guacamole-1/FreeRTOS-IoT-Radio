@@ -22,6 +22,9 @@
 
 #include "task_app.h"
 
+#include "LCD.h"
+#include "display.h"
+
 int main(void) {
     printf("FreeRTOS on LPC1769 @ %ld MHz\n", SystemCoreClock / 1000000UL);
 

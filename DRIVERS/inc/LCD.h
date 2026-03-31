@@ -91,7 +91,6 @@ void LCDText_CursorSet(Cursor c);
     struct
     {
       uint8_t RS  : 1; // LSB
-      uint8_t RW	: 1;
       uint8_t E   : 1;
       uint8_t DB 	: 4; // MSB
     };
@@ -107,7 +106,6 @@ void LCDText_CursorSet(Cursor c);
     struct
     {
       uint8_t RS  : 1;  // LSB
-      uint8_t RW	: 1;
       uint8_t E   : 1;
       uint8_t DB  : 8;  // MSB
     };
