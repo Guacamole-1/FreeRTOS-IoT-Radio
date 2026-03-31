@@ -10,7 +10,7 @@
 
 #define _MUTEX_BLOCK_TIME portMAX_DELAY
 
-#define LOCK_DEF static SemaphoreHandle_t __lock_semaphore		\
+#define LOCK_DEF static SemaphoreHandle_t __lock_semaphore;		\
   static bool __init_flag
 
 #define LOCK_INIT __lock_semaphore = xSemaphoreCreateBinary(); \

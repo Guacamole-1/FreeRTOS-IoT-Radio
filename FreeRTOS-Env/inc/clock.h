@@ -8,8 +8,8 @@
 #ifndef CLOCK_H_
 
 typedef enum {
+	CLOCK_NOT_INITIALIZED = -1,
 	CLOCK_SUCCESS,
-	CLOCK_INIT_ERROR
 } CLOCK_STATUS;
 
 

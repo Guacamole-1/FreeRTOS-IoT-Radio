@@ -44,7 +44,7 @@ typedef struct tm tm;
 /**
  * @brief initializes the RTC, it's initialized with the time_t seconds
  * @param seconds passsed since 00:00:00 UTC of 1 january 1970.
- * @warning must be called before other for other functions to work properly
+ * @warning must be called before other RTC functions for them to work properly
  * */
 void RTC_Init(time_t seconds);
 

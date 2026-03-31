@@ -12,53 +12,53 @@
 #include "projdefs.h"
 #include "task.h"
 #include "queue.h"
-
+#include "semphr.h"
 #include "clock.h"
 #include "RTC.h"
-
-static SemaphoreHandle_t xSemaphore;
-
+#include "mutex_wrapper.h"
 
 
-CLOCK_STATUS CLOCK_Init(){
-	if(!RTC_Init()){
-		return CLOCK_INIT_ERROR;
-	}
-
-	xSemaphore = xSemaphoreCreateMutex();
-	xSemaphoreGive(xSemaphore);
+LOCK_DEF;
 
 
+CLOCK_STATUS CLOCK_Init(time_t seconds){
+
+	RTC_Init(seconds);
+	LOCK_INIT;
 	return CLOCK_SUCCESS;
 }
 
 CLOCK_STATUS CLOCK_SetTimeDate(tm *dateTime){
 
-	xSemaphoreTake(xSemaphore,portMAX_DELAY);
-	RTC_SetTimeDate(tm *dateTime);
-	xSemaphoreGive(xSemaphore);
+	LOCK
+		RTC_SetTimeDate(dateTime);
+	UNLOCK
+	return CLOCK_SUCCESS;
 }
 
 CLOCK_STATUS CLOCK_GetTimeDate(tm *dateTime){
 
-	xSemaphoreTake(xSemaphore,portMAX_DELAY);
-	RTC_GetTimeDate(tm *dateTime);
-	xSemaphoreGive(xSemaphore);
+	LOCK
+		RTC_GetTimeDate(dateTime);
+	UNLOCK
+	return CLOCK_SUCCESS;
 }
 
-CLOCK_STATUS CLOCK_GetSeconds(time_t seconds){
+CLOCK_STATUS CLOCK_GetSeconds(time_t* seconds){
 
-	xSemaphoreTake(xSemaphore,portMAX_DELAY);
-	RTC_GetSeconds(tm *dateTime);
-	xSemaphoreGive(xSemaphore);
+	LOCK
+		*seconds = RTC_GetSeconds();
+	UNLOCK
+
+    return CLOCK_SUCCESS;
 }
 
 CLOCK_STATUS CLOCK_SetSeconds(time_t seconds){
 
-	xSemaphoreTake(xSemaphore,portMAX_DELAY);
-	RTC_SetSeconds(tm *dateTime);
-	xSemaphoreGive(xSemaphore);
+	LOCK
+		RTC_SetSeconds(seconds);
+	UNLOCK
+
+	return CLOCK_SUCCESS;
 }
-
-
 
