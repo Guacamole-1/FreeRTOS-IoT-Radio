@@ -24,17 +24,6 @@ void Messages_Task(void *pvParameters) {
   DISPLAY_Args_WS arg = {"hello\n"};
   DISPLAY_Item msg = {WRITE_STR, &arg};
   DISPLAY_Send(msg);
-  lcd16_t curs = CURSOR_SETUP(CURSOR_ON|BLINK_ON);
-  DISPLAY_Send((DISPLAY_Item){WRITE_CMD, &curs});
-  vTaskDelay(pdMS_TO_TICKS(3000));
-  curs = CURSOR_SETUP(CURSOR_ON | BLINK_OFF);
-  DISPLAY_Send((DISPLAY_Item){WRITE_CMD, &curs});
-  vTaskDelay(pdMS_TO_TICKS(3000));
-  curs = CURSOR_SETUP(CURSOR_OFF | BLINK_ON);
-  DISPLAY_Send((DISPLAY_Item){WRITE_CMD, &curs});
-  vTaskDelay(pdMS_TO_TICKS(3000));
-  curs = CURSOR_SETUP(CURSOR_OFF | BLINK_OFF);
-  DISPLAY_Send((DISPLAY_Item){WRITE_CMD, &curs});
   char* str = "world";
   vTaskDelay(pdMS_TO_TICKS(1000));
   DISPLAY_Printf("%s :)",str);
