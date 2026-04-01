@@ -39,7 +39,7 @@
  * */
 int clamp(int value,int min,int max);
 
-typedef struct tm tm; 
+typedef struct tm tm;
 
 /**
  * @brief initializes the RTC, it's initialized with the time_t seconds

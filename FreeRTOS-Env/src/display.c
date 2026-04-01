@@ -1,8 +1,11 @@
-/*
- * display.c
+/**
+ * @file display.c
+ * @brief This source file implements the API for controlling the LCD Display with
+ * concurrent access
+ * @version 1
+ * @date 11 Mar 2026
+ * @author Grupo 08
  *
- *  Created on: Mar 11, 2026
- *      Author: guack
  */
 
 #include "FreeRTOS.h"
@@ -28,7 +31,7 @@
 
 
 static QueueHandle_t disp_queue;
-static SemaphoreHandle_t _init;
+
 
 DISPLAY_STATUS DISPLAY_Init(){
 	if(DELAY_Init()){

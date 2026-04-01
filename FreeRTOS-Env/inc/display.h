@@ -1,15 +1,19 @@
-/*
- * display.h
+/**
+ * @file display.h
+ * @brief This header file provides the API for controlling the LCD Display with
+ * concurrent access
+ * @version 1
+ * @date 11 Mar 2026
+ * @author Grupo 08
  *
- *  Created on: Mar 11, 2026
- *      Author: guack
  */
-// install doxygen!!
+
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 
 #define DISPLAY_MAX_QUEUE 10
-#define DISPLAY_TICKS_TO_WAIT pdMS_TO_TICKS(1000)
+#define DISPLAY_TICKS_TO_WAIT portMAX_DELAY
+
 typedef enum {
 	DISP_SUCCESS,
 	DISP_INIT_ERROR,
