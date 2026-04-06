@@ -1,62 +1,79 @@
-/*
- * button.c
+/**
+ * @file display.c
+ * @brief This source file implements the API for controlling the NAV7BTN with concurrent access
+ * @version 1
+ * @date 1 Apr 2026
+ * @author Grupo 08
  *
- *  Created on: 01/04/2026
- *      Author: rafav
  */
-
 
 #include "button.h"
 #include "FreeRTOS.h"
+#include "FreeRTOSConfig.h"
+#include "Nav7Btn.h"
+#include "base.h"
+#include "portmacro.h"
 #include "timers.h"
 #include "queue.h"
-
-#define BTN_SCAN_PERIOD_MS      200
+#include "semphr.h"
+#include "mutex_wrapper.h"
+#define BTN_SCAN_PERIOD_MS      100
 #define BTN_QUEUE_LENGTH        8
 
 static QueueHandle_t btnQueue = NULL;
 static TimerHandle_t scanTimer = NULL;
 
+LOCK_DEF
 
+static void BUTTON_callback(TimerHandle_t xTimer) {
+	if (!INIT_FLAG ) return;
+    NAVBTN_TypeDef pressedButton = NAVBTN_Pressed();
 
+	if (pressedButton != NAVBTN_NONE) {
+	  xQueueSend(btnQueue, &pressedButton, BUTTON_TICKS_TO_WAIT);
+	}
+}
 
+base_t BUTTON_Pressed(NAVBTN_TypeDef* pressed){
 
-static void vScanTimerCallback(TimerHandle_t xTimer) {
-    BUTTON_TypeDef pressedButton = NAVBTN_Pressed();
+	configASSERT(pressed != NULL);
+	if (pressed == NULL) {return ARG_ERROR;}
 
-        if (pressedButton != NAVBTN_NONE) {
-        	xQueueSend(btnQueue, &pressedButton, BUTTON_TICKS_TO_WAIT);
-        }
+	INIT_CHECK
 
-        pressedButton = NAVBTN_NONE;
+	if(xQueueReceive(btnQueue,pressed, 0) != pdPASS){
+		*pressed = NAVBTN_NONE;
+	}
+
+	return SUCCESS;
 }
 
 
-BUTTON_STATUS BUTTON_RTOS_Init(void) {
+
+base_t BUTTON_Init(void) {
+	INIT_NCHECK;
+
     NAVBTN_Init();
 
-    btnQueue = xQueueCreate(BTN_QUEUE_LENGTH, sizeof(BUTTON_TypeDef));
-    if (btnQueue == NULL) {
-        return BUTTON_INIT_FAIL;
-    }
+    btnQueue = xQueueCreate(BTN_QUEUE_LENGTH, sizeof(NAVBTN_TypeDef));
+	configASSERT(btnQueue != NULL);
 
     scanTimer = xTimerCreate(
-        "BtnScan",
-        pdMS_TO_TICKS(BTN_SCAN_PERIOD_MS),
-        pdTRUE,         /* auto-reload */
-        NULL,
-        vScanTimerCallback
-    );
+							"BtnScan",
+							pdMS_TO_TICKS(BTN_SCAN_PERIOD_MS),
+							pdTRUE,         /* auto-reload */
+							NULL,
+							BUTTON_callback
+							);
 
-    if (scanTimer == NULL) {
-        return BUTTON_INIT_FAIL;
+	configASSERT(scanTimer != NULL);
+
+	LOCK_INIT
+
+    if (xTimerStart(scanTimer, portMAX_DELAY) != pdPASS) {
+        configASSERT(ERROR);
     }
 
-
-    if (xTimerStart(scanTimer, 0) != pdPASS) {
-        return BUTTON_INIT_FAIL;
-    }
-
-    return BUTTON_SUCCESS;
+    return SUCCESS;
 }
 

@@ -1,9 +1,3 @@
-/*
- * clock.c
- *
- *  Created on: 25/03/2026
- *      Author: rafav
- */
 /**
  * @file clock.c
  * @brief This source file implements the API for controlling the RTC with concurrent access

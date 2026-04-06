@@ -24,13 +24,21 @@
 #define GPIO0 LPC_GPIO0
 #define SC LPC_SC// system control
 #define PC_GPIO 15
-#define COL_BITS 0b11
-#define ROW_BITS (0b1111 << 6)
+//#define COL_BITS 0b11
+//#define ROW_BITS (0b1111 << 6)
 #define NAV_BITS (COL_BITS | ROW_BITS)
 #define BIT_POS(x) 1<<x
 
-#define GET_NAV_NAME(x) case NAVBTN_ ## x: \
-                        return  #x;
+#define COL0_PIN 15
+#define COL1_PIN 16
+#define ROW0_PIN 23
+#define ROW1_PIN 24
+#define ROW2_PIN 25
+#define ROW3_PIN 26
+
+#define COL_BITS ((1U << COL0_PIN) | (1U << COL1_PIN))
+#define ROW_BITS ((1U << ROW0_PIN) | (1U << ROW1_PIN) | (1U << ROW2_PIN) | (1U << ROW3_PIN))
+
 
 typedef enum {
 NAVBTN_NONE = -1,
@@ -78,9 +86,9 @@ NAVBTN_TypeDef NAVBTN_Pressed(void);
 
 /**
  * @brief associates the enum list with the correspondent char
- * @return the correspondent char NAVBTN_UP = 1 returns "UP"
+ * @return the correspondent char, ex: NAVBTN_UP = 1 returns "UP"
  */
-char* get_nav_name(NAVBTN_TypeDef nav);
+char* NAVBTN_GetName(NAVBTN_TypeDef nav);
 
 #endif /* NAV7BTN_H_ */
 

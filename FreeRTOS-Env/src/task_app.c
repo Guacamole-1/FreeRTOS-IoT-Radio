@@ -9,6 +9,8 @@
 
 /* Kernel includes. */
 #include "LCD.h"
+#include "Nav7Btn.h"
+#include "base.h"
 #include "projdefs.h"
 #include "task.h"
 #include "queue.h"
@@ -16,33 +18,31 @@
 #include "task_app.h"
 #include "semphr.h"
 
-// DRIVER includes
+// kernel modules includes
 #include "display.h"
+#include "button.h"
 
 void Messages_Task(void *pvParameters) {
-  vTaskDelay(pdMS_TO_TICKS(3000));
-  DISPLAY_Args_WS arg = {"hello\n"};
-  DISPLAY_Item msg = {WRITE_STR, &arg};
-  DISPLAY_Send(msg);
-  char* str = "world";
-  vTaskDelay(pdMS_TO_TICKS(1000));
-  DISPLAY_Printf("%s :)",str);
-  vTaskDelay(pdMS_TO_TICKS(1000));
-  DISPLAY_Send((DISPLAY_Item){CLEAR});
-  vTaskDelay(pdMS_TO_TICKS(1000));
-  Cursor c = {10,1};
-  DISPLAY_Send((DISPLAY_Item){CURSOR_SET,&c});
-  DISPLAY_Args_WS arg2 = {":P"};
-  DISPLAY_Item msg2 = {WRITE_STR,&arg2};
-  DISPLAY_Send(msg2);
-  vTaskDelete(NULL);
+	vTaskDelay(pdMS_TO_TICKS(3000));
+	NAVBTN_TypeDef btn;
+
+	while (1) {
+		DISPLAY_Send((DISPLAY_Item){CLEAR});
+		BUTTON_Pressed(&btn);
+		DISPLAY_Printf("Pressed: %s",NAVBTN_GetName(btn));
+		vTaskDelay(pdMS_TO_TICKS(300));
+	}
+	vTaskDelete(NULL);
 }
 
 
 void APP_Task(void *pvParameters) {
-	if(DISPLAY_Init() != DISP_SUCCESS){
+	if(DISPLAY_Init() != SUCCESS){
 	    	return;
 	    }
+	if(BUTTON_Init() != SUCCESS){
+		return;
+	}
 	DISPLAY_Manager();
 }
 

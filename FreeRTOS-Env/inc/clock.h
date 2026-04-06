@@ -1,12 +1,19 @@
 /**
  * @file clock.h
- * @brief This header file provides the API for controlling the RTC with concurrent access
+ * @brief This header file provides the API for controlling the RTC with
+ * concurrent access
  * @version 1
  * @date 25 Mar 2026
  * @author Grupo 08
  *
  */
 
+/**
+ * @defgroup clock_module Clock Module
+ * @ingroup free_rtos
+ * @brief Asynchronous RTC manager.
+ * @{
+ */
 #ifndef CLOCK_H_
 
 #include "RTC.h"
@@ -45,7 +52,7 @@ CLOCK_STATUS CLOCK_Init(time_t seconds);
  */
 CLOCK_STATUS CLOCK_SetTimeDate(tm *dateTime);
 
-/**
+ /**
  * @brief Reads the current date and time from the RTC.
  *
  * Fills the provided `tm` structure with the current RTC date and time.
@@ -88,3 +95,5 @@ CLOCK_STATUS CLOCK_SetSeconds(time_t seconds);
 #define CLOCK_H_
 
 #endif /* CLOCK_H_ */
+
+/** @} */

@@ -9,9 +9,10 @@
 #include "LPC17xx.h"
 #include <stdbool.h>
 #define PINCON LPC_PINCON
-#define PIN_MODE 0xFF << 12
+#define PIN_MODE 0xFF << 14
 
-
+#define GET_NAV_NAME(x) case NAVBTN_ ## x: \
+                        return  #x;
 
 
 static const NAVBTN_TypeDef nav_map[][4] = {
@@ -25,7 +26,7 @@ static const uint8_t input_map[][4] = {
 };
 
 // returns a string that represents the NAVBTN_TypeDef
-char* get_nav_name(NAVBTN_TypeDef nav){
+char* NAVBTN_GetName(NAVBTN_TypeDef nav){
     switch (nav)
     {
     GET_NAV_NAME(UP)
@@ -45,13 +46,20 @@ void NAVBTN_Init(void){
     SC->PCONP |= 1 << PC_GPIO;
     GPIO0->FIODIR |= COL_BITS;
     //GPIO0->FIOMASK = ~NAV_BITS; // change this
-    PINCON->PINMODE0 |= PIN_MODE;
+    PINCON->PINMODE1 |= PIN_MODE;
 }
 
 // sets the columns output and reads the rows
 static void read_data(Nav7Btn* btn){
-    GPIO0->FIOPIN0 = btn->columns;
-    btn->rows = (GPIO0->FIOPINL & ROW_BITS) >> 6;
+
+	uint32_t col_mask = btn->columns << COL0_PIN;
+
+    GPIO0->FIOCLR = COL_BITS;
+    GPIO0->FIOSET = col_mask;
+
+    btn->rows = (GPIO0->FIOPIN & ROW_BITS) >> ROW0_PIN;
+	GPIO0->FIOCLR = COL_BITS;
+
 }
 
 /* Lê o teclado e devolve a primeira tecla detetada.
@@ -73,7 +81,6 @@ NAVBTN_TypeDef NAVBTN_Read(void){
             {
                 return nav_map[col_num][row_num];
             }
-            
         }
     }
     return NAVBTN_NONE;
