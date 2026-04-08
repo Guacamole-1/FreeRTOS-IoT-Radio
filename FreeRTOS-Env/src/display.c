@@ -48,10 +48,6 @@ base_t DISPLAY_Init(){
 void free_item(DISPLAY_Item* item){
 	if (item == NULL) return;
 
-	if (item->id == WRITE_STR && item->args != NULL)
-		{
-			vPortFree(((DISPLAY_Args_WS*)item->args)->str);
-		}
 	if(item->args != NULL){
 		vPortFree(item->args);
 	}
@@ -66,22 +62,23 @@ DISPLAY_Item* copy_item(DISPLAY_Item item){
 		{
 		case WRITE_STR:
 			{
-				new_item->args = pvPortMalloc(sizeof(DISPLAY_Args_WS));
-				memcpy(new_item->args, item.args, sizeof(DISPLAY_Args_WS));
-				DISPLAY_Args_WS* old_args = (DISPLAY_Args_WS*)item.args;
-				DISPLAY_Args_WS* new_args = (DISPLAY_Args_WS*)new_item->args;
-				// copy string
-				new_args->str = pvPortMalloc(strlen(old_args->str) + 1); // +1 for '\0'
-				memcpy(new_args->str, old_args->str, strlen(old_args->str) + 1);
-				break;
-			}
+			char *old_str = (char *)item.args;
+			configASSERT(old_str != NULL);
+
+			new_item->args = pvPortMalloc(strlen(old_str) + 1);
+			configASSERT(new_item->args != NULL);
+
+			memcpy(new_item->args, old_str, strlen(old_str) + 1);
 			break;
+			}
 		case CURSOR_SET:
 			new_item->args = pvPortMalloc(sizeof(Cursor));
+			configASSERT(new_item->args != NULL);
 			memcpy(new_item->args, item.args, sizeof(Cursor));
 			break;
 		case WRITE_CMD:
 			new_item->args = pvPortMalloc(sizeof(lcd16_t));
+			configASSERT(new_item->args != NULL);
 			memcpy(new_item->args, item.args, sizeof(lcd16_t));
 			break;
 		default:
@@ -118,8 +115,7 @@ base_t DISPLAY_Printf(const char* fmt, ...){
 	vsnprintf(str,MAX_CHARS+1,fmt,args);
 	va_end(args);
 
-	DISPLAY_Args_WS str_args = {str};
-	DISPLAY_Item item = {WRITE_STR,&str_args};
+	DISPLAY_Item item = {WRITE_STR,str};
 	return DISPLAY_Send(item);
 }
 
@@ -132,7 +128,7 @@ base_t DISPLAY_Manager() {
 			switch (recvd_item->id)
 				{
 				case WRITE_STR:
-					LCDText_WriteString(((DISPLAY_Args_WS*)recvd_item->args)->str);
+					LCDText_WriteString((char*)recvd_item->args);
 					break;
 				case CLEAR:
 					LCDText_Clear();

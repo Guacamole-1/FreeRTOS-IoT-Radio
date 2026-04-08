@@ -22,14 +22,14 @@
   static bool INIT_FLAG;
 
 #define LOCK_INIT __lock_semaphore = xSemaphoreCreateMutex();	\
-  if (__lock_semaphore == NULL ) return LOCK_ERROR;		\
-  else INIT_FLAG = 1;										   \
+	configASSERT(__lock_semaphore != NULL);						\
+	INIT_FLAG = 1;												\
 
 #define LOCK                                                      \
   if ( (INIT_FLAG) && xSemaphoreTake(__lock_semaphore, _MUTEX_BLOCK_TIME) == pdTRUE) {
 
 #define UNLOCK xSemaphoreGive(__lock_semaphore);		\
-  } else {return NOT_INITIALIZED;} \
+	} else {return NOT_INITIALIZED;} \
 
 //check if LOCK_INIT was ran, and if not return -1
 #define INIT_CHECK	if(!INIT_FLAG) return NOT_INITIALIZED;

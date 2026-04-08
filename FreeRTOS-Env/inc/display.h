@@ -45,9 +45,6 @@ typedef struct {
 	void* args;
 } DISPLAY_Item;
 
-typedef struct {
-	char* str;
-} DISPLAY_Args_WS;
 
 
 

@@ -17,12 +17,7 @@
 #ifndef CLOCK_H_
 
 #include "RTC.h"
-
-typedef enum {
-	CLOCK_LOCK_ERROR = -1,
-	CLOCK_SUCCESS,
-	CLOCK_ERROR
-} CLOCK_STATUS;
+#include "base.h"
 
 /**
  * @brief Initializes the clock module and the underlying RTC.
@@ -37,7 +32,7 @@ typedef enum {
  * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the internal lock
  *         could not be created.
  */
-CLOCK_STATUS CLOCK_Init(time_t seconds);
+base_t CLOCK_Init(time_t seconds);
 
 /**
  * @brief Sets the current date and time in the RTC.
@@ -50,7 +45,7 @@ CLOCK_STATUS CLOCK_Init(time_t seconds);
  * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the module lock
  *         could not be acquired.
  */
-CLOCK_STATUS CLOCK_SetTimeDate(tm *dateTime);
+base_t CLOCK_SetTimeDate(tm *dateTime);
 
  /**
  * @brief Reads the current date and time from the RTC.
@@ -64,7 +59,7 @@ CLOCK_STATUS CLOCK_SetTimeDate(tm *dateTime);
  * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the module lock
  *         could not be acquired.
  */
-CLOCK_STATUS CLOCK_GetTimeDate(tm *dateTime);
+base_t CLOCK_GetTimeDate(tm *dateTime);
 
 /**
  * @brief Reads the current RTC time as Unix time.
@@ -77,7 +72,7 @@ CLOCK_STATUS CLOCK_GetTimeDate(tm *dateTime);
  * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the module lock
  *         could not be acquired.
  */
-CLOCK_STATUS CLOCK_GetSeconds(time_t *seconds);
+base_t CLOCK_GetSeconds(time_t *seconds);
 
 /**
  * @brief Sets the RTC using Unix time.
@@ -90,7 +85,7 @@ CLOCK_STATUS CLOCK_GetSeconds(time_t *seconds);
  * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the module lock
  *         could not be acquired.
  */
-CLOCK_STATUS CLOCK_SetSeconds(time_t seconds);
+base_t CLOCK_SetSeconds(time_t seconds);
 
 #define CLOCK_H_
 

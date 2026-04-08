@@ -11,6 +11,7 @@
 #include "LCD.h"
 #include "Nav7Btn.h"
 #include "base.h"
+#include "clock.h"
 #include "projdefs.h"
 #include "task.h"
 #include "queue.h"
@@ -24,13 +25,14 @@
 
 void Messages_Task(void *pvParameters) {
 	vTaskDelay(pdMS_TO_TICKS(3000));
-	NAVBTN_TypeDef btn;
-
+	tm date;
+	char str[MAX_CHARS+1];
 	while (1) {
 		DISPLAY_Send((DISPLAY_Item){CLEAR});
-		BUTTON_Pressed(&btn);
-		DISPLAY_Printf("Pressed: %s",NAVBTN_GetName(btn));
-		vTaskDelay(pdMS_TO_TICKS(300));
+		CLOCK_GetTimeDate(&date);
+		strftime(str, sizeof(str),"%H:%M:%S", &date);
+		DISPLAY_Send((DISPLAY_Item){WRITE_STR,str});
+		vTaskDelay(pdMS_TO_TICKS(100));
 	}
 	vTaskDelete(NULL);
 }
@@ -40,7 +42,10 @@ void APP_Task(void *pvParameters) {
 	if(DISPLAY_Init() != SUCCESS){
 	    	return;
 	    }
-	if(BUTTON_Init() != SUCCESS){
+	else if (BUTTON_Init() != SUCCESS){
+		return;
+	}
+	else if (CLOCK_Init(1775596492) != SUCCESS){
 		return;
 	}
 	DISPLAY_Manager();
