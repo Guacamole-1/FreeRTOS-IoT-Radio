@@ -18,14 +18,6 @@
 
 LOCK_DEF;
 
-base_t (* RTC_GetSeconds )(time_t* seconds) = CLOCK_GetSeconds;
-base_t (* RTC_GetTimeDate )(tm *dateTime) = CLOCK_GetTimeDate;
-base_t (* RTC_SetTimeDate )(tm *dateTime) = CLOCK_SetTimeDate;
-base_t (* RTC_Init )(time_t seconds) = CLOCK_Init;
-base_t (* RTC_SetSeconds )(time_t seconds) = CLOCK_SetSeconds;
-
-
-
 base_t CLOCK_Init(time_t seconds){
 
 	RTC_Init(seconds);
