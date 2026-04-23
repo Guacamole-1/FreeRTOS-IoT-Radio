@@ -8,6 +8,8 @@
 !DRIVERS/src/Fields/
 !DRIVERS/src/Fields/*
 !DRIVERS/src/*
+!DRIVERS/Release\ UART/
+!DRIVERS/Release\ UART/*
 !FreeRTOS-Env/
 !FreeRTOS-Env/src/
 !FreeRTOS-Env/src/*
