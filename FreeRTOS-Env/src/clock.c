@@ -21,7 +21,7 @@ LOCK_DEF;
 base_t CLOCK_Init(time_t seconds){
 
 	RTC_Init(seconds);
-	LOCK_INIT;
+	LOCK_INIT();
 	return SUCCESS;
 }
 
@@ -29,9 +29,9 @@ base_t CLOCK_SetTimeDate(tm *dateTime){
 
 	if(dateTime == NULL) return ARG_ERROR;
 
-	LOCK
+	LOCK()
 		RTC_SetTimeDate(dateTime);
-	UNLOCK
+	UNLOCK()
 	return SUCCESS;
 }
 
@@ -39,9 +39,9 @@ base_t CLOCK_GetTimeDate(tm *dateTime){
 
   if (dateTime == NULL) return ARG_ERROR;
 
-  LOCK
+  LOCK()
 	RTC_GetTimeDate(dateTime);
-  UNLOCK
+  UNLOCK()
 
   return SUCCESS;
 }
@@ -50,18 +50,18 @@ base_t CLOCK_GetSeconds(time_t* seconds){
 
   if (seconds == NULL) return ARG_ERROR;
 
-  LOCK
+  LOCK()
 	*seconds = RTC_GetSeconds();
-  UNLOCK
+  UNLOCK()
 
   return SUCCESS;
 }
 
 base_t CLOCK_SetSeconds(time_t seconds){
 
-	LOCK
+	LOCK()
 		RTC_SetSeconds(seconds);
-	UNLOCK
+	UNLOCK()
 
 	return SUCCESS;
 }

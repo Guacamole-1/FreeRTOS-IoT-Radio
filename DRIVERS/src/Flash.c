@@ -1,105 +1,107 @@
 /**
 * @file Flash.c
-* @brief This source file implements the API for controlling the LCD
-* @version 2
+* @brief Internal Flash driver using LPC17xx IAP.
+* @version 2.1
 * @date 27 Nov 2025
 * @author Grupo06
-*
 */
+
 #include "Flash.h"
+
 #include "LPC17xx.h"
+#include "system_LPC17xx.h"
 
+typedef void (*IAP_Function)(uint32_t command[], uint32_t result[]);
+static const IAP_Function iap_entry = (IAP_Function)IAP_LOCATION;
 
-
-CMD_RESULTS FLASH_EraseSector(unsigned int sector){
-
-	unsigned int command[5] = {0}, out[5] = {0};
-
-	command[0] = IAP_PREP;
-	command[1] = sector;
-	command[2] = sector;
-	iap_entry(command, out);
-	
-	if(out[0] != CMD_SUCCESS){
-		return out[0];
-	}
-
-	command[0] = IAP_ERASE;
-	command[1] = sector;
-	command[2] = sector;
-	command[3] = SystemCoreClock / 1000;
-	iap_entry(command, out);
-
-	return out[0];
+static void FLASH_CallIAP(uint32_t command[], uint32_t result[]) {
+    /*
+     * IAP erase/write runs from ROM and manipulates Flash.
+     * Disable interrupts so no interrupt handler stored in Flash runs during IAP.
+     */
+    __disable_irq();
+    iap_entry(command, result);
+    __enable_irq();
 }
 
-CMD_RESULTS sizeConv(unsigned int size){
-	switch (size) {
-        case 256:
-        case 512:
-        case 1024:
-        case 4096:
-            return (int)size;
-        default:
-            return -1;
+static uint32_t FLASH_GetIAPClockKHz(void) {
+    SystemCoreClockUpdate();
+    return SystemCoreClock / 1000U;
+}
+
+static int FLASH_IsValidIAPWriteSize(unsigned int size) {
+    return (size == 256U) ||
+           (size == 512U) ||
+           (size == 1024U) ||
+           (size == 4096U);
+}
+
+CMD_RESULTS FLASH_EraseSector(unsigned int sector) {
+    uint32_t command[5] = {0U};
+    uint32_t result[5] = {0U};
+
+    command[0] = IAP_PREP;
+    command[1] = sector;
+    command[2] = sector;
+    FLASH_CallIAP(command, result);
+
+    if (result[0] != CMD_SUCCESS) {
+        return (CMD_RESULTS)result[0];
     }
+
+    command[0] = IAP_ERASE;
+    command[1] = sector;
+    command[2] = sector;
+    command[3] = FLASH_GetIAPClockKHz();
+    FLASH_CallIAP(command, result);
+
+    return (CMD_RESULTS)result[0];
 }
 
-//pag 634
+CMD_RESULTS FLASH_WriteData(void *dstAddr, void *srcAddr, unsigned int size) {
+    uint32_t command[5] = {0U};
+    uint32_t result[5] = {0U};
 
-/* Escreve o bloco de dados referenciado por srcAddr, de dimensão size bytes,
-no endereço da flash referenciado por dstAddr. */
-CMD_RESULTS FLASH_WriteData(void *dstAddr, void *srcAddr, unsigned int size){
+    if ((dstAddr == 0) || (srcAddr == 0)) {
+        return INVALID_COMMAND;
+    }
 
-	unsigned long src = (unsigned long) srcAddr;
-	unsigned long dst = (unsigned long) dstAddr;
+    if (!FLASH_IsValidIAPWriteSize(size)) {
+        return COUNT_ERROR;
+    }
 
-	unsigned int command[5] = {0}, out[5] = {0};
-	unsigned int cmdSize;
+    command[0] = IAP_PREP;
+    command[1] = SECTOR;
+    command[2] = SECTOR;
+    FLASH_CallIAP(command, result);
 
-	if((cmdSize = sizeConv(size)) < 0){
-		return COUNT_ERROR; 
-	}
-	
+    if (result[0] != CMD_SUCCESS) {
+        return (CMD_RESULTS)result[0];
+    }
 
-	command[0] = IAP_PREP;
-	command[1] = SECTOR;
-	command[2] = SECTOR;
-	iap_entry(command,out);
+    command[0] = IAP_COPY;
+    command[1] = (uint32_t)dstAddr;
+    command[2] = (uint32_t)srcAddr;
+    command[3] = size;
+    command[4] = FLASH_GetIAPClockKHz();
+    FLASH_CallIAP(command, result);
 
-	if(out[0] != CMD_SUCCESS){
-		return out[0];
-	}
-	
-	command[0] = IAP_COPY;
-	command[1] = dst;
-    command[2] = src;
-	command[3] = cmdSize;
-	command[4] = SystemCoreClock / 1000;
-	iap_entry(command, out);
-
-	return out[0];
+    return (CMD_RESULTS)result[0];
 }
 
-/* Compara o conteúdo do bloco de dados referenciado por srcAddr, de dimensão size bytes,
-com o conteúdo do bloco de dados referenciado por dstAddr. 
-@warning The result may not be correct when the source or destination includes any
- of the first 64 bytes starting from address zero. The first 64 bytes can be
- re-mapped to RAM.
-*/
-CMD_RESULTS FLASH_VerifyData(void *dstAddr, void *srcAddr, unsigned int size){
-	
-	unsigned long src = (unsigned long) srcAddr;
-	unsigned long dst = (unsigned long) dstAddr;
+CMD_RESULTS FLASH_VerifyData(void *dstAddr, void *srcAddr, unsigned int size) {
+    uint32_t command[5] = {0U};
+    uint32_t result[5] = {0U};
 
-	unsigned int command[5] = {0}, out[5] = {0};
+    if ((dstAddr == 0) || (srcAddr == 0) || (size == 0U)) {
+        return INVALID_COMMAND;
+    }
 
-	command[0] = IAP_COMP;
-	command[1] = dst;
-	command[2] = src;
-	command[3] = size;
-	iap_entry(command, out);
+    command[0] = IAP_COMP;
+    command[1] = (uint32_t)dstAddr;
+    command[2] = (uint32_t)srcAddr;
+    command[3] = size;
+    FLASH_CallIAP(command, result);
 
-	return out[0];
-
+    return (CMD_RESULTS)result[0];
 }

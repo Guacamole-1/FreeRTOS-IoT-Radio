@@ -39,7 +39,7 @@ base_t BUTTON_Pressed(NAVBTN_TypeDef* pressed){
 	configASSERT(pressed != NULL);
 	if (pressed == NULL) {return ARG_ERROR;}
 
-	INIT_CHECK
+	INIT_CHECK();
 
 	if(xQueueReceive(btnQueue,pressed, 0) != pdPASS){
 		*pressed = NAVBTN_NONE;
@@ -51,7 +51,7 @@ base_t BUTTON_Pressed(NAVBTN_TypeDef* pressed){
 
 
 base_t BUTTON_Init(void) {
-	INIT_NCHECK;
+	INIT_NCHECK();
 
     NAVBTN_Init();
 
@@ -68,7 +68,7 @@ base_t BUTTON_Init(void) {
 
 	configASSERT(scanTimer != NULL);
 
-	LOCK_INIT
+	LOCK_INIT();
 
     if (xTimerStart(scanTimer, portMAX_DELAY) != pdPASS) {
         configASSERT(ERROR);

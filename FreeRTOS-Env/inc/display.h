@@ -101,6 +101,18 @@ base_t DISPLAY_Receive(DISPLAY_Item **recvd_item);
  */
 base_t DISPLAY_Printf(const char *fmt, ...);
 
+/*
+ *
+ * TODO
+ */
+base_t DISPLAY_Cursor(uint8_t col, uint8_t row);
+
+/*
+ *
+ * TODO
+ */
+base_t DISPLAY_Clear(void);
+
 /**
  * @brief Main display processing loop.
  *

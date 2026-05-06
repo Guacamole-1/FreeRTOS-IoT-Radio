@@ -32,7 +32,7 @@ static QueueHandle_t disp_queue;
 INIT_FLAG_DEF
 
 base_t DISPLAY_Init(){
-	INIT_NCHECK
+	INIT_NCHECK();
 
 	if(DELAY_Init()){
 		configASSERT(ERROR);
@@ -90,7 +90,7 @@ DISPLAY_Item* copy_item(DISPLAY_Item item){
 
 
 base_t DISPLAY_Send(DISPLAY_Item item){
-	INIT_CHECK
+	INIT_CHECK();
 	DISPLAY_Item* new_item = copy_item(item);
 	if(xQueueSend(disp_queue,&new_item,DISPLAY_TICKS_TO_WAIT) == errQUEUE_FULL){
 		free_item(new_item);
@@ -99,7 +99,7 @@ base_t DISPLAY_Send(DISPLAY_Item item){
 	return SUCCESS;
 }
 base_t DISPLAY_Receive(DISPLAY_Item** recvd_item){
-	INIT_CHECK
+	INIT_CHECK();
 	configASSERT(recvd_item != NULL);
 
 	return xQueueReceive(disp_queue, recvd_item, DISPLAY_TICKS_TO_WAIT) == pdPASS ?
@@ -120,7 +120,7 @@ base_t DISPLAY_Printf(const char* fmt, ...){
 }
 
 base_t DISPLAY_Manager() {
-	INIT_CHECK
+	INIT_CHECK();
 	while (1) {
 		DISPLAY_Item* recvd_item = NULL;
 		if ( INIT_FLAG && DISPLAY_Receive(&recvd_item) != QUEUE_EMPTY){
@@ -152,3 +152,14 @@ base_t DISPLAY_Manager() {
 		}
 	}
 }
+
+base_t DISPLAY_Cursor(uint8_t col, uint8_t row) {
+    Cursor c = { col, row };
+    return DISPLAY_Send((DISPLAY_Item){ CURSOR_SET, &c });
+}
+
+base_t DISPLAY_Clear(void) {
+    return DISPLAY_Send((DISPLAY_Item){ CLEAR, NULL });
+}
+
+
