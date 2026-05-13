@@ -15,6 +15,7 @@ CompileFlags:
     - "-I/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/rtos/src/portable/GCC/ARM_CM3"
     - "-I/home/guack/ISEL/6º semestre/SEIoT/FreeRTOS-Env/inc"
     - "-I/home/guack/ISEL/6º semestre/SEIoT/DRIVERS/inc"
+	- "-I/home/guack/ISEL/6º semestre/SEIoT/MQTTPacket/inc"
     - "-mcpu=cortex-m3"
     - "-mthumb"
     - "-fno-builtin"
