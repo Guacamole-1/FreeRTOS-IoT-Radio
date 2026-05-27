@@ -26,16 +26,16 @@
 #include "display.h"
 
 int main(void) {
-    // printf("FreeRTOS on LPC1769 @ %ld MHz\n", SystemCoreClock / 1000000UL);
+    printf("FreeRTOS on LPC1769 @ %ld MHz\n", SystemCoreClock / 1000000UL);
 
     if (App() != 0) {
-        // printf("APP init failed!\n");
+        printf("APP init failed!\n");
         while (1);
     }
 
     vTaskStartScheduler();
 
-    // printf("Scheduler failed to start! Check heap size.\n");
+    printf("Scheduler failed to start! Check heap size.\n");
     while (1);
 
     return 0;

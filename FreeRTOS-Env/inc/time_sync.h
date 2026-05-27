@@ -6,10 +6,11 @@
 #ifndef TIME_SYNC_H_
 #define TIME_SYNC_H_
 
-#include <stdint.h>
-
 #include "FreeRTOS.h"
 #include "task.h"
+#include <stdbool.h>
+#include <time.h>
+#include <stdint.h>
 
 #include "base.h"
 
@@ -33,4 +34,5 @@ base_t TIME_SYNC_Start(const char *ssid,
                        UBaseType_t priority,
                        uint16_t stack_depth);
 
+bool TIME_SYNC_RequestUnixTime(time_t *unix_time); 
 #endif /* TIME_SYNC_H_ */

@@ -14,7 +14,7 @@
 
 #define GPIO0 LPC_GPIO0
 #define SC LPC_SC       // system control
-#define PC_I2C0 7                      
+#define PC_I2C0 7
 #define SDA_PIN 27
 #define SCL_PIN 28
 #define PINSEL_FUNC 0b01

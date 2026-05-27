@@ -121,6 +121,8 @@ base_t DISPLAY_Printf(const char* fmt, ...){
 
 base_t DISPLAY_Manager() {
 	INIT_CHECK();
+	LCDText_Clear();
+	LCDText_SetCursor(0,0);
 	while (1) {
 		DISPLAY_Item* recvd_item = NULL;
 		if ( INIT_FLAG && DISPLAY_Receive(&recvd_item) != QUEUE_EMPTY){

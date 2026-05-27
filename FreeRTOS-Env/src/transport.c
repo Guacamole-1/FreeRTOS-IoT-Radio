@@ -34,7 +34,7 @@ The blocking rx function is not supported.
 If you plan on writing one, take into account that the current implementation of
 MQTTPacket_read() has a function pointer for a function call to get the data to a buffer, but no provisions
 to know the caller or other indicator (the socket id): int (*getfn)(unsigned char*, int)
-*/
+ */
 static transport_iofunctions_t *io = NULL;
 static unsigned char *from = NULL;		// to keep track of data sending
 static int howmany;				// ditto
@@ -48,11 +48,11 @@ void transport_sendPacketBuffernb_start(int sock, unsigned char* buf, int buflen
 
 int transport_sendPacketBuffernb(int sock)
 {
-transport_iofunctions_t *myio = io;	// io[sock] or mystruct[sock].io
-int len;
+	transport_iofunctions_t *myio = io;	// io[sock] or mystruct[sock].io
+	int len;
 
-	/* you should have called open() with a valid pointer to a valid struct and 
-	called sendPacketBuffernb_start with a valid buffer, before calling this */
+	/* you should have called open() with a valid pointer to a valid struct and
+	   called sendPacketBuffernb_start with a valid buffer, before calling this */
 	assert((myio != NULL) && (myio->send != NULL) && (from != NULL));
 	if((len = myio->send(from, howmany)) > 0){
 		from += len;
@@ -67,7 +67,7 @@ int len;
 
 int transport_sendPacketBuffer(int sock, unsigned char* buf, int buflen)
 {
-int rc;
+	int rc;
 
 	transport_sendPacketBuffernb_start(sock, buf, buflen);
 	while((rc=transport_sendPacketBuffernb(sock)) == TRANSPORT_AGAIN){
@@ -88,22 +88,22 @@ int transport_getdata(unsigned char* buf, int count)
 
 int transport_getdatanb(void *sck, unsigned char* buf, int count)
 {
-//int sock = *((int *)sck); 		/* sck: pointer to whatever the system may use to identify the transport */
-transport_iofunctions_t *myio = io;	// io[sock] or mystruct[sock].io
+	//int sock = *((int *)sck); 		/* sck: pointer to whatever the system may use to identify the transport */
+	transport_iofunctions_t *myio = io;	// io[sock] or mystruct[sock].io
 	int len;
-	
+
 	/* you should have called open() with a valid pointer to a valid struct before calling this */
 	assert((myio != NULL) && (myio->recv != NULL));
 	/* this call will return immediately if no bytes, or return whatever outstanding bytes we have,
-	 upto count */
+	   upto count */
 	if((len = myio->recv(buf, count)) >= 0)
 		return len;
 	return TRANSPORT_ERROR;
 }
 
 /**
-return >=0 for a connection descriptor, <0 for an error code
-*/
+   return >=0 for a connection descriptor, <0 for an error code
+ */
 int transport_open(transport_iofunctions_t *thisio)
 {
 	int idx=0;	// for multiple connections, you might, basically turn myio into myio[MAX_CONNECTIONS],

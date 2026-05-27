@@ -7,7 +7,7 @@
 
 #include "Delay.h"
 #include <math.h>
-
+#include <stdbool.h>
 
 //velocidade do cpu = 100 MHz
 #define SYSTICK_FREQ (SystemCoreClock / 1000)
@@ -32,6 +32,7 @@
     typedef uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 #endif
+
 #define configTICK_RATE_HZ			( 1000 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define pdMS_TO_TICKS( xTimeInMs )    ( ( TickType_t ) ( ( ( uint64_t ) ( xTimeInMs ) * ( uint64_t ) configTICK_RATE_HZ ) / ( uint64_t ) 1000U ) )
@@ -39,6 +40,8 @@ TickType_t xTaskGetTickCount( void );
 void vTaskDelay( TickType_t xTicksToDelay );
 // ---------
 static volatile uint32_t tick;
+
+static bool __init_flag = 0;
 
 #ifndef FREE_RTOS
 void SysTick_Handler(void) {
@@ -56,6 +59,8 @@ uint32_t Get_Tick(){
 
 
 int DELAY_Init(void) {
+	if(__init_flag) return -1; // check if Init was already called
+	__init_flag = 1;
 	SC->PCONP |= ENABLE(PC_TIM2); // Timer 2 power/clock control bit.
 	Timer2->TCR = ENABLE(CE_BIT) | ENABLE(CR_BIT) ; // Enable timer2 and reset
 	Timer2->MCR = MR0_IRS; // enable interrupt on MR0 (MR0I), reset (MR0R) and stop TC and PC (MR0S)
@@ -71,6 +76,7 @@ int DELAY_Init(void) {
 }
 void DELAY_Milliseconds(uint32_t millis) {
 #ifndef FREE_RTOS
+	if(!__init_flag) return;
 	uint32_t start = tick;
 	while ((tick - start) < millis) {
 		__WFI();
@@ -82,6 +88,7 @@ void DELAY_Milliseconds(uint32_t millis) {
 
 uint32_t DELAY_GetElapsedMillis(uint32_t start_tick) {
 #ifndef FREE_RTOS
+	if(!__init_flag) return 0;
 	return (Get_Tick() - start_tick);
 #else
   return (Get_Tick() - start_tick) * portTICK_PERIOD_MS;
@@ -90,6 +97,7 @@ uint32_t DELAY_GetElapsedMillis(uint32_t start_tick) {
 
 
 void DELAY_Microseconds(uint32_t waitUs) {
+	if(!__init_flag) return;
 	Timer2->TCR = ENABLE(CR_BIT);
 	Timer2->MR0 = waitUs;
 	Timer2->TCR = ENABLE(CE_BIT); // enable timer and removes the timer reset

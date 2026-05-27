@@ -48,10 +48,10 @@ static void TIME_SYNC_Display(const char *line1, const char *line2) {
     DISPLAY_Printf("%-16.16s%-16.16s", line1, line2);
 }
 
-static bool TIME_SYNC_RequestUnixTime(time_t *unix_time) {
+bool TIME_SYNC_RequestUnixTime(time_t *unix_time) {
     uint8_t ntp_packet[NTP_PACKET_SIZE];
     uint8_t ntp_response[NTP_RESPONSE_SIZE];
-    uint32_t received_len = 0U;
+    int received_len = 0U;
     uint32_t ntp_seconds;
     uint32_t unix_seconds;
 
@@ -68,7 +68,7 @@ static bool TIME_SYNC_RequestUnixTime(time_t *unix_time) {
      */
     ntp_packet[0] = 0xE3U;
 
-    if (!WIFI_OpenUDP(NTP_SERVER, NTP_PORT)) {
+    if (!WIFI_OpenUDP(NTP_SERVER, NTP_PORT,NTP_TIMEOUT_MS/1000)) {
         return false;
     }
 
@@ -77,10 +77,9 @@ static bool TIME_SYNC_RequestUnixTime(time_t *unix_time) {
         return false;
     }
 
-    if (!WIFI_ReceiveUDP(ntp_response,
+    if ((received_len = WIFI_ReceiveUDP(ntp_response,
                          sizeof(ntp_response),
-                         &received_len,
-                         NTP_TIMEOUT_MS)) {
+                         NTP_TIMEOUT_MS)) == -1 ) {
         (void)WIFI_Close();
         return false;
     }
