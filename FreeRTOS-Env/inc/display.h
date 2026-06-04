@@ -168,7 +168,9 @@ base_t DISPLAY_Clear(void);
  *
  * @return Never normally returns
  */
-base_t DISPLAY_Manager(void);
+void DISPLAY_Manager(void* args);
+
+base_t DISPLAY_TaskStart();
 
 #endif /* DISPLAY_H_ */
 

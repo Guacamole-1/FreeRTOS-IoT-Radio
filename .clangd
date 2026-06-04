@@ -20,3 +20,6 @@ CompileFlags:
     - "-mcpu=cortex-m3"
     - "-mthumb"
     - "-fno-builtin"
+Completion:
+  AllScopes: Yes
+  MacroFilter: FuzzyMatch

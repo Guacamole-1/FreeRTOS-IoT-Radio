@@ -7,6 +7,7 @@
 
 #include "FreeRTOS.h"
 #include "Wifi.h"
+#include "projdefs.h"
 #include "task.h"
 
 #include "base.h"
@@ -19,85 +20,67 @@
 #include "time_sync.h"
 #include "Menu.h"
 
+#define TEXT_DELAY 1000
+
+#define TRY_START(func,initial_str)									\
+			DISPLAY_Clear();										\
+			DISPLAY_Write(initial_str);								\
+			err = func;												\
+			vTaskDelay(pdMS_TO_TICKS(TEXT_DELAY));							\
+			if (err != SUCCESS) {									\
+				DISPLAY_Clear();									\
+				DISPLAY_Printf("ERROR CODE: %d\ncontinuing..",err); \
+				vTaskDelay(pdMS_TO_TICKS(1000));}					\
+			else {													\
+				DISPLAY_Clear();									\
+				DISPLAY_Write("SUCESS");							\
+				vTaskDelay(pdMS_TO_TICKS(TEXT_DELAY));}
+
 void APP_Task(void *pvParameters) {
-  (void)pvParameters;
-  time_t time;
-  printf("1");
-  if (DISPLAY_Init() != SUCCESS) {
-    goto exit_task;
-  }
-  printf("2");
+	(void)pvParameters;
+	time_t time;
+	base_t err;
+	DISPLAY_Init();
+	TRY_START(DISPLAY_TaskStart(), "Initializing\ndisplay..")
 
-  if (BUTTON_Init() != SUCCESS) {
-    goto exit_task;
-  }
-  printf("3");
-  if (WIFI_RTOS_Init()) {
-    goto exit_task;
-  }
-  printf("4");
-  if (WIFI_RTOS_SetModeStation()) {
-    goto exit_task;
-  }
-  printf("4.1");
-  if (WIFI_RTOS_ConnectAp(SSID, PASS)) {
-    goto exit_task;
-  }
-  printf("4.2");
-  if (!TIME_SYNC_RequestUnixTime(&time)) {
-    goto exit_task;
-  }
-  printf("5");
-  if (CLOCK_Init(time) != SUCCESS) {
-    goto exit_task;
-  }
-  Radio_Data radio_data = {.id = RADIO_DATA_ID,
-                           .channel = 46, /* 91.6 MHz Cidade FM */
-                           .volume = 8,
-                           .time = {0}};
-  printf("5");
+	TRY_START(BUTTON_Init(), "Initializing\nButtons..")
 
-  CLOCK_GetTimeDate(&radio_data.time);
+	TRY_START(WIFI_RTOS_Init(),"Initializing\nWIFI..")
 
-  if (RADIO_RTOS_INIT(&radio_data) != SUCCESS) {
-    goto exit_task;
-  }
+	TRY_START(WIFI_RTOS_SetModeStation(), "Putting WIFI\nin station mode..")
 
-  /* printf("7"); */
-  /* if (MENU_RTOS_Init(&radio_data) != SUCCESS) { */
-  /*   goto exit_task; */
-  /* } */
-  /* printf("8"); */
-  /* if (MENU_RTOS_Start(tskIDLE_PRIORITY + 1, configMINIMAL_STACK_SIZE * 3) != */
-  /*     SUCCESS) { */
-  /*   goto exit_task; */
-  /* } */
-  printf("9");
+	TRY_START(WIFI_RTOS_ConnectAp(SSID, PASS), "Connecting to\nSSID: " SSID)
 
-  if (Start_Publisher_Task(&radio_data) != SUCCESS) {
-    goto exit_task;
-  }
-  printf("10");
-  Menu_Init(&radio_data);
-  if (xTaskCreate(Main_Menu, "Main Menu", configMINIMAL_STACK_SIZE * 5, NULL,
-                  tskIDLE_PRIORITY +1, NULL) != pdPASS) {
-      goto exit_task;
-  }
+	TRY_START(!TIME_SYNC_RequestUnixTime(&time), "fetching time\nthrough NTP..")
 
-  DISPLAY_Manager();
+	TRY_START(CLOCK_Init(time), "Setting Clock..")
 
-exit_task:
-  printf("task deleted");
-  vTaskDelete(NULL);
+	Radio_Data radio_data = {.id = RADIO_DATA_ID,
+							 .channel = 46, /* 91.6 MHz Cidade FM */
+							 .volume = 8,
+							 .time = {0}};
+
+	CLOCK_GetTimeDate(&radio_data.time);
+
+	TRY_START(RADIO_RTOS_INIT(&radio_data), "Starting Radio..")
+
+	TRY_START(Start_Publisher_Task(&radio_data),"Starting MQTT..")
+
+	Menu_Init(&radio_data);
+
+	TRY_START(SUCCESS,"Initializing\nMenu..")
+
+	Main_Menu();
+
+	vTaskDelete(NULL);
 }
-// TODO: mudar o menu_rtos.c
- 
+
 int32_t App(void) {
 
-  if (xTaskCreate(APP_Task, "App", configMINIMAL_STACK_SIZE * 6, NULL, // change to 3
-                  tskIDLE_PRIORITY + 1, NULL) != pdPASS) {
-    return -1;
-  }
+	if (xTaskCreate(APP_Task, "App", configMINIMAL_STACK_SIZE * 6, NULL, // change to 3
+					tskIDLE_PRIORITY + 1, NULL) != pdPASS) {
+		return -1;
+	}
 
-  return 0;
+	return 0;
 }

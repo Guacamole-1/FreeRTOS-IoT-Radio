@@ -11,6 +11,7 @@
 
 /* Kernel includes. */
 #include "FreeRTOSConfig.h"
+#include "base.h"
 #include "mutex_wrapper.h"
 #include "portable.h"
 #include "projdefs.h"
@@ -122,8 +123,8 @@ base_t DISPLAY_Printf(const char* fmt, ...){
 	return DISPLAY_Send(item);
 }
 
-base_t DISPLAY_Manager() {
-	INIT_CHECK();
+void DISPLAY_Manager(void* args) {
+	if(!__init_flag) return;
 	LCDText_Clear();
 	LCDText_SetCursor(0,0);
 	while (1) {
@@ -172,4 +173,10 @@ base_t DISPLAY_Clear(void) {
     return DISPLAY_Send((DISPLAY_Item){ CLEAR, NULL });
 }
 
-
+base_t DISPLAY_TaskStart(){
+	if(xTaskCreate(DISPLAY_Manager, "Display Manager", configMINIMAL_STACK_SIZE * 5, NULL,
+				tskIDLE_PRIORITY +1, NULL) != pdPASS){
+		return ERROR;
+	}
+	return SUCCESS;
+}
