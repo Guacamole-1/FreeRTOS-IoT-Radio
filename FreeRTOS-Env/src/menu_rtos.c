@@ -174,7 +174,7 @@ static void load_edit_datetime(void) {
 static void display_line(uint8_t row, const char *text) {
     char line[17];
     snprintf(line, sizeof(line), "%-16.16s", text);
-    DISPLAY_Cursor(0, row);
+    DISPLAY_SetCursor(0, row);
     DISPLAY_Printf("%s", line);
 }
 

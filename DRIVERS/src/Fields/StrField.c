@@ -10,28 +10,45 @@
 #include "Fields/StrField.h"
 #include <string.h>
 
+#ifdef FREE_RTOS
+#include "clock.h"
+#include "display.h"
+#endif
+
 FieldInitFunc(strField_init){
     StrField* sf = (StrField *)f->data;
-    
     sf->_index = 0;
     return;
 }
 
 FieldRenderFunc(strField_render){
     StrField* sf = (StrField *)f->data;
+#ifndef FREE_RTOS
     LCDText_Clear();
+#else
+	DISPLAY_Clear();
+#endif
 
     for (int i = 0; i < sf->_strings_size; i++)
-    {
-        LCDText_CursorSet(sf->strings_pos[i]);
-        LCDText_WriteString(sf->strings[i]);
+	{
+#ifndef FREE_RTOS
+		LCDText_CursorSet(sf->strings_pos[i]);
+		LCDText_WriteString(sf->strings[i]);
+#else
+		DISPLAY_CursorSet(sf->strings_pos[i]);
+		DISPLAY_Write(sf->strings[i]);
+#endif
     }
-    if (focused) f->cursor(f);    
+    if (focused) f->cursor(f);
 }
 
 FieldCursorFunc(strField_cursor){
     StrField* sf = (StrField *)f->data;
+#ifndef FREE_RTOS
     LCDText_CursorSet(sf->action_pos[sf->_index]);
+#else
+    DISPLAY_CursorSet(sf->action_pos[sf->_index]);
+#endif
 }
 
 FieldStepFunc(strField_step){
@@ -52,7 +69,6 @@ FieldShiftFunc(strField_shift){
         sf->_index = sf->_actions_size-1;
         bey = true;
     }
-    
     return bey;
 }
 

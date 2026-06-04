@@ -66,7 +66,7 @@
 #define ARRAY_SIZE(x) sizeof(x) / sizeof(x[0])
 
 // (x,y)  ->  (columns,rows)
-typedef struct {
+typedef struct Cursor {
     uint8_t x;
     uint8_t y;
 } Cursor;

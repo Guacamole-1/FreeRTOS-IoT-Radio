@@ -29,9 +29,11 @@
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 #include "base.h"
+#include "stdint.h"
 #define DISPLAY_MAX_QUEUE 10
 #define DISPLAY_TICKS_TO_WAIT portMAX_DELAY
 
+typedef struct Cursor Cursor;
 
 typedef enum {
 	WRITE_STR,
@@ -101,15 +103,58 @@ base_t DISPLAY_Receive(DISPLAY_Item **recvd_item);
  */
 base_t DISPLAY_Printf(const char *fmt, ...);
 
-/*
+/**
+ * @brief Queues a cursor-position request.
  *
- * TODO
+ * Moves the LCD cursor to the specified row and column. The actual cursor
+ * movement is performed asynchronously by DISPLAY_Manager().
+ *
+ * @param row Target LCD row.
+ * @param col Target LCD column.
+ *
+ * @return SUCCESS if the cursor request was queued successfully.
+ * @return ERROR if the coordinates are invalid or the request could not be
+ *         queued.
  */
-base_t DISPLAY_Cursor(uint8_t col, uint8_t row);
+base_t DISPLAY_SetCursor(uint8_t row, uint8_t col);
 
-/*
+/**
+ * @brief Queues a cursor-position request using a Cursor object.
  *
- * TODO
+ * Moves the LCD cursor to the specified row(y) and column(x) defined by Cursor. The actual cursor
+ * movement is performed asynchronously by DISPLAY_Manager().
+ *
+ * @param c Cursor struct
+ *
+ * @return SUCCESS if the cursor request was queued successfully.
+ * @return ERROR if @p c is NULL or the request could not be queued.
+ */
+base_t DISPLAY_CursorSet(Cursor c);
+
+/**
+ * @brief Queues a string write request.
+ *
+ * Sends a null-terminated string to the display manager. The string is written
+ * asynchronously by DISPLAY_Manager().
+ *
+ * The string contents must be copied internally before being queued. This
+ * allows callers to pass stack-allocated strings safely.
+ *
+ * @param str Null-terminated string to display.
+ *
+ * @return SUCCESS if the string was queued successfully.
+ * @return ERROR if @p str is NULL or the request could not be queued.
+ */
+base_t DISPLAY_Write(char *str);
+
+/**
+ * @brief Queues a display clear request.
+ *
+ * Requests the display manager to clear the LCD. The clear operation is
+ * performed asynchronously by DISPLAY_Manager().
+ *
+ * @return SUCCESS if the clear request was queued successfully.
+ * @return ERROR if the request could not be queued.
  */
 base_t DISPLAY_Clear(void);
 

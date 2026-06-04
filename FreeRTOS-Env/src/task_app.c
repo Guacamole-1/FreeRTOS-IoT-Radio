@@ -17,6 +17,7 @@
 #include "publisher.h"
 #include "wifi_rtos.h"
 #include "time_sync.h"
+#include "Menu.h"
 
 void APP_Task(void *pvParameters) {
   (void)pvParameters;
@@ -62,21 +63,27 @@ void APP_Task(void *pvParameters) {
     goto exit_task;
   }
 
-  printf("7");
-  if (MENU_RTOS_Init(&radio_data) != SUCCESS) {
-    goto exit_task;
-  }
-  printf("8");
-  if (MENU_RTOS_Start(tskIDLE_PRIORITY + 1, configMINIMAL_STACK_SIZE * 3) !=
-      SUCCESS) {
-    goto exit_task;
-  }
+  /* printf("7"); */
+  /* if (MENU_RTOS_Init(&radio_data) != SUCCESS) { */
+  /*   goto exit_task; */
+  /* } */
+  /* printf("8"); */
+  /* if (MENU_RTOS_Start(tskIDLE_PRIORITY + 1, configMINIMAL_STACK_SIZE * 3) != */
+  /*     SUCCESS) { */
+  /*   goto exit_task; */
+  /* } */
   printf("9");
 
   if (Start_Publisher_Task(&radio_data) != SUCCESS) {
     goto exit_task;
   }
   printf("10");
+  Menu_Init(&radio_data);
+  if (xTaskCreate(Main_Menu, "Main Menu", configMINIMAL_STACK_SIZE * 5, NULL,
+                  tskIDLE_PRIORITY +1, NULL) != pdPASS) {
+      goto exit_task;
+  }
+
   DISPLAY_Manager();
 
 exit_task:
@@ -84,10 +91,10 @@ exit_task:
   vTaskDelete(NULL);
 }
 // TODO: mudar o menu_rtos.c
-
+ 
 int32_t App(void) {
 
-  if (xTaskCreate(APP_Task, "App", configMINIMAL_STACK_SIZE * 5, NULL, // change to 3
+  if (xTaskCreate(APP_Task, "App", configMINIMAL_STACK_SIZE * 6, NULL, // change to 3
                   tskIDLE_PRIORITY + 1, NULL) != pdPASS) {
     return -1;
   }

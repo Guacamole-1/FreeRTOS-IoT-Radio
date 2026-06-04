@@ -7,6 +7,10 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#ifdef FREE_RTOS
+#include "clock.h"
+#include "display.h"
+#endif
 
 
 void free_DateField(DateField* d){
@@ -14,10 +18,10 @@ void free_DateField(DateField* d){
 
     for (int i = 0; i < d->_field_count; ++i) {
         if (!d->_fields[i]) continue;
-        free(d->_fields[i]->data);
-        free(d->_fields[i]);
+        FREE(d->_fields[i]->data);
+        FREE(d->_fields[i]);
     }
-    free(d->_fields);
+    FREE(d->_fields);
     d->_fields = NULL;
     d->_field_count = 0;
 }
@@ -43,7 +47,7 @@ int find_spec_length(char ch)
         4  // Y
     };
 static const char* specifiers = "aAbBdHIjmMSUwWyY";
-    
+
     for (int f = 0; specifiers[f] != '\0'; f++)
     {
         if (specifiers[f] == ch)
@@ -61,7 +65,7 @@ bool is_leap(int year){
 
 int Max_dom(int year,int month){
     bool leap = is_leap(year);
-    
+
     if (month == 2) // february
     {
         return leap ? 29 : 28;
@@ -82,7 +86,11 @@ int Max_dom(int year,int month){
 FieldInitFunc(date_init)
 {
     DateField *d = (DateField *)f->data;
-    RTC_GetTimeDate(&d->_date);
+	#ifndef FREE_RTOS
+		RTC_GetTimeDate(&d->_date);
+	#else
+		CLOCK_GetTimeDate(&d->_date);
+	#endif
     d->_field_index = 0;
 
     int year  = d->_date.tm_year + 1900;
@@ -162,7 +170,8 @@ FieldInitFunc(date_init)
     }
     // allocate Fields
     d->_field_count = specifier_count;
-    d->_fields = calloc(specifier_count, sizeof(Field *));
+	d->_fields = CALLOC(specifier_count, sizeof(Field *));
+
     if (!d->_fields) {
         d->_field_count = 0;
         return;
@@ -170,7 +179,7 @@ FieldInitFunc(date_init)
 
     for (int i = 0; i < specifier_count; ++i)
     {
-        d->_fields[i] = malloc(sizeof(Field));
+        d->_fields[i] = MALLOC(sizeof(Field));
         if (!d->_fields[i]) {
             continue;
         }
@@ -255,7 +264,7 @@ FieldInitFunc(date_init)
         if (!value_ptr)
             continue;
 
-        IntField *Intf = malloc(sizeof(IntField));
+        IntField *Intf = MALLOC(sizeof(IntField));
         if (!Intf)
             continue;
 
@@ -273,16 +282,19 @@ FieldRenderFunc(date_render){
     char buf[MAX_CHARS+1];
 
     //RTC_GetTimeDate(&d->_date);
-    
+
     int temp = *field->value;
 
     *field->value = field->_display_val;
     strftime(buf,sizeof(buf),d->fmt,&d->_date);
     *field->value = temp;
-
+#ifndef FREE_RTOS
     LCDText_CursorSet(f->pos);
     LCDText_WriteString(buf);
-
+#else
+	DISPLAY_CursorSet(f->pos);
+	DISPLAY_Write(buf);
+#endif
     if (focused) f->cursor(f);
 }
 
@@ -291,11 +303,15 @@ FieldCursorFunc(date_cursor){
     Field* field = d->_fields[d->_field_index];
     IntField* intf = (IntField*)field->data;
     Cursor c = field->pos;
-    
+ 
     int x = f->pos.x + c.x + intf->index; //position of Field + position of current Intfield + index
     int y = f->pos.y + c.y;
     bool nl = x > MAX_COLUMNS;
+#ifndef FREE_RTOS
     LCDText_SetCursor(nl ? 1 : y, nl ? x - 16 : x); // if it goes beyond max, wrap
+#else
+	DISPLAY_SetCursor(nl ? 1 : y, nl ? x - 16 : x);
+#endif
 }
 
 FieldStepFunc(date_step)
@@ -376,7 +392,11 @@ FieldSaveFunc(date_save){
     {
         d->_fields[i]->save(d->_fields[i]);
     }
-    RTC_SetTimeDate(&d->_date);
+	#ifndef FREE_RTOS
+		RTC_SetTimeDate(&d->_date);
+	#else
+		CLOCK_SetTimeDate(&d->_date);
+	#endif
     free_DateField(d);
     d->_date = (tm){0};
     d->_field_count = 0;

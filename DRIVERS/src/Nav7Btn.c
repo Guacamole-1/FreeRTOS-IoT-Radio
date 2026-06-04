@@ -7,6 +7,7 @@
 */
 #include "Nav7Btn.h"
 #include "LPC17xx.h"
+#include "Delay.h"
 #include <stdbool.h>
 #define PINCON LPC_PINCON
 #define PIN_MODE 0xFF << 14
@@ -45,10 +46,10 @@ char* NAVBTN_GetName(NAVBTN_TypeDef nav){
 void NAVBTN_Init(void){
     SC->PCONP |= 1 << PC_GPIO;
     GPIO0->FIODIR |= COL_BITS;
+    GPIO0->FIODIR &= ~ROW_BITS;   // rows input
     //GPIO0->FIOMASK = ~NAV_BITS; // change this
     PINCON->PINMODE1 |= PIN_MODE;
 }
-
 // sets the columns output and reads the rows
 static void read_data(Nav7Btn* btn){
 
@@ -57,8 +58,10 @@ static void read_data(Nav7Btn* btn){
     GPIO0->FIOCLR = COL_BITS;
     GPIO0->FIOSET = col_mask;
 
+	DELAY_Microseconds(100);
     btn->rows = (GPIO0->FIOPIN & ROW_BITS) >> ROW0_PIN;
 	GPIO0->FIOCLR = COL_BITS;
+
 
 }
 
@@ -83,6 +86,7 @@ NAVBTN_TypeDef NAVBTN_Read(void){
             }
         }
     }
+
     return NAVBTN_NONE;
 }
 /* Igual a NAVBTN_Read(), mas se a tecla se manteve pressionada entre duas

@@ -106,6 +106,9 @@ base_t DISPLAY_Receive(DISPLAY_Item** recvd_item){
 		   SUCCESS : QUEUE_EMPTY;
 }
 
+base_t DISPLAY_Write(char* str){
+	return DISPLAY_Send((DISPLAY_Item){WRITE_STR,str});
+}
 
 base_t DISPLAY_Printf(const char* fmt, ...){
 	char str[MAX_CHARS+1];
@@ -155,10 +158,15 @@ base_t DISPLAY_Manager() {
 	}
 }
 
-base_t DISPLAY_Cursor(uint8_t col, uint8_t row) {
+base_t DISPLAY_SetCursor( uint8_t row, uint8_t col) {
     Cursor c = { col, row };
     return DISPLAY_Send((DISPLAY_Item){ CURSOR_SET, &c });
 }
+
+base_t DISPLAY_CursorSet(Cursor c) {
+    return DISPLAY_Send((DISPLAY_Item){ CURSOR_SET, &c });
+}
+
 
 base_t DISPLAY_Clear(void) {
     return DISPLAY_Send((DISPLAY_Item){ CLEAR, NULL });

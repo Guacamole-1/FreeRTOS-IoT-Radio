@@ -3,9 +3,13 @@
 #include <stdio.h>
 #include <math.h>
 
+#ifdef FREE_RTOS
+	#include "display.h"
+#endif
+
 FieldInitFunc(int_init){
     IntField *field = (IntField*)f->data;
-    field->_display_val = clamp(*field->value,field->min,field->max); 
+    field->_display_val = clamp(*field->value,field->min,field->max);
     field->index = 0;
 }
 
@@ -13,12 +17,15 @@ FieldInitFunc(int_init){
 FieldRenderFunc(int_render){
 
     IntField *field = (IntField*)f->data;
+#ifndef FREE_RTOS
     char buf[MAX_CHARS+1] = {0};  // +1 for null terminator
-
     snprintf(buf, sizeof(buf), field->fmt, field->_display_val);
     LCDText_CursorSet(f->pos);
     LCDText_WriteString(buf);
-
+#else
+	DISPLAY_CursorSet(f->pos);
+	DISPLAY_Printf(field->fmt,field->_display_val);
+#endif
     if (focused) f->cursor(f);
 }
 
@@ -26,8 +33,11 @@ FieldCursorFunc(int_cursor){
 
     IntField *field = (IntField*)f->data;
 
+#ifndef FREE_RTOS
     LCDText_SetCursor(f->pos.y, f->pos.x + field->index);
-
+#else
+	DISPLAY_SetCursor(f->pos.y, f->pos.x + field->index);
+#endif
 }
 
 FieldStepFunc(int_step){

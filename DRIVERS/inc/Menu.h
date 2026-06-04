@@ -52,7 +52,7 @@ bool Menu_SM(Field* field,bool always_render,bool main_state);
  * @brief Initializes Menu (NavBTN,DELAY,LCDText,RTC)
  * @param Rdata data to Initialize the Radio
  */
-void Menu_Init(Radio_Data Rdata);
+void Menu_Init(Radio_Data* Rdata);
 /**
  * @brief Main menu where you see time and date, frequency and volume
  * and increment/decrement time and volume

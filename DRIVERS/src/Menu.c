@@ -16,19 +16,27 @@
 #include "Fields/Menu_Field.h"
 #include "Radio.h"
 
-static Radio_Data radio_data;
+#ifdef FREE_RTOS
+#include "display.h"
+#include "radio_rtos.h"
+#include "button.h"
+#endif
+
+static Radio_Data* radio_data;
 // inicializa o menu
-void Menu_Init(Radio_Data Rdata){
+void Menu_Init(Radio_Data* Rdata){
+	#ifndef FREE_RTOS
     DELAY_Init();
     NAVBTN_Init();
     LCDText_Init();
     RTC_Init(0);
     //tm temp = {.tm_year=2025-1900, .tm_mon=12-1, .tm_mday=19, .tm_yday=353, .tm_wday=4, .tm_hour=15, .tm_min=30, .tm_sec=0};
     //19 dezembro 2025 15:30, quando começam as férias de natal!! :P
-    RTC_SetTimeDate(&Rdata.time);
-    radio_data = Rdata;
-    Init_Radio(&radio_data);
+    RTC_SetTimeDate(Rdata->time);
+    Init_Radio(radio_data);
     //lcd_write8(&CURSOR_BLINK);
+	#endif
+    radio_data = Rdata;
 }
 
 // menu state machine
@@ -38,7 +46,11 @@ bool Menu_SM(Field* field,bool always_render,bool main_state){
     bool render = true;
     field->init(field);
     while(1){
+#ifndef FREE_RTOS
         btn = NAVBTN_Pressed();
+#else
+		BUTTON_Pressed(&btn);
+#endif
         switch (btn)
         {
             case (NAVBTN_UP):
@@ -82,49 +94,58 @@ bool Menu_SM(Field* field,bool always_render,bool main_state){
             field->render(field,true);
             render = false;
         }
-        DELAY_Milliseconds(50);
+        DELAY_Milliseconds(100);
     }
     return false;
 }
 
-
+static void lcd_setup(int cursor_cmd){
+	#ifndef FREE_RTOS
+		lcd_write8(&CURSOR_SETUP(cursor_cmd));
+		LCDText_Clear();
+	#else
+		DISPLAY_Send((DISPLAY_Item){WRITE_CMD,&CURSOR_SETUP(cursor_cmd)});
+		DISPLAY_Clear();
+	#endif
+}
 
 void Calendar_Menu(){
     DateField d = {"%a %d %b %Y"};
     Cursor c = (Cursor){0,0};
     Field date = INIT_DATEFIELD(c,&d);
     date.init(&date);
-    lcd_write8(&CURSOR_SETUP(BLINK_ON|CURSOR_ON));
-	LCDText_Clear();
+	lcd_setup(BLINK_ON | CURSOR_ON);
     Menu_SM(&date,false,false);
 }
 
-void Clock_Menu(){ 
+void Clock_Menu(){
     DateField d = {"%H:%M:%S"};
     Cursor c = (Cursor){4,0};
     Field date = INIT_DATEFIELD(c,&d);
     date.init(&date);
-    lcd_write8(&CURSOR_SETUP(BLINK_ON|CURSOR_ON));
-	LCDText_Clear();
+    lcd_setup(BLINK_ON|CURSOR_ON);
     Menu_SM(&date,false,false);
 }
 void empty_func(){
-    return; 
+    return;
 }
 static void _Freq_Del(){
-    Radio_Data data;
-    if(Get_RData(&data) == CMD_SUCCESS){
-        data.channel = 0;
-        Save_RData(&data);
-    }
+	radio_data->channel = 0;
+#ifndef FREE_RTOS
+	Save_RData(&radio_data);
+#else
+	RADIO_RTOS_SAVE_DATA(radio_data);
+#endif
 }
 
 static void _Vol_Del(){
-    Radio_Data data;
-    if(Get_RData(&data) == CMD_SUCCESS){
-        data.volume = 0;
-        Save_RData(&data);
-    }
+	radio_data->volume = 0;
+#ifndef FREE_RTOS
+	Save_RData(&radio_data);
+#else
+	RADIO_RTOS_SAVE_DATA(radio_data);
+#endif
+
 }
 
 
@@ -137,9 +158,8 @@ static void Vol_Del(){
 }
 
 void Confirmation_Menu(char* Conf_text, action yes, action no){
-    LCDText_Clear();
-    lcd_write8(&CURSOR_SETUP(BLINK_ON|CURSOR_ON));
-    
+	lcd_setup(BLINK_ON|CURSOR_ON);
+
     Cursor c = {0,0};
     const char* const strs[] = {Conf_text,"Yes","No"};
     Cursor pos[] = {(Cursor){LCDText_Center(Conf_text),0}, (Cursor){3,1}, (Cursor){12,1}};
@@ -154,14 +174,12 @@ void Confirmation_Menu(char* Conf_text, action yes, action no){
 void Menu_Maintenance(){
     Cursor c = {3,0};
     const char* const list[] = {"Calendar","Clock","Del. Freq.","Del. Volume"};
-    action funcs[] =  {Calendar_Menu,Clock_Menu,Freq_Del,Vol_Del}; 
+    action funcs[] =  {Calendar_Menu,Clock_Menu,Freq_Del,Vol_Del};
     Spinner sp    =   {list,4,funcs};
     Field field   =   INIT_FIELDSPINNER(c,&sp);
-    LCDText_Clear();
-    lcd_write8(&CURSOR_SETUP(BLINK_OFF|CURSOR_OFF));
-
+    lcd_setup(BLINK_OFF|CURSOR_OFF);
     Menu_SM(&field,false,false);
-    
+
 }
 
 void Main_Menu(){
@@ -171,8 +189,7 @@ void Main_Menu(){
 
     Menu_args args = {"%d/%m/%Y v:%v %H:%M:%S %fMHz",datefield,radio_data};
     Field f = INIT_MENUFIELD(c,&args);
-    lcd_write8(&CURSOR_SETUP(BLINK_OFF|CURSOR_OFF));
-	LCDText_Clear();
+	lcd_setup(BLINK_OFF|CURSOR_OFF);
     Menu_SM(&f,true,true);
     datefield.cancel(&datefield); // to avoid future memory leaks
 }

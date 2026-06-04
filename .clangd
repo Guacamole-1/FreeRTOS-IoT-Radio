@@ -5,6 +5,7 @@ CompileFlags:
     - "c"
     - "-std=gnu11"
     - "-DDEBUG"
+    - "-DFREE_RTOS"
     - "-D__CODE_RED"
     - "-DCORE_M3"
     - "-D__USE_CMSIS=CMSIS_CORE_LPC17xx"

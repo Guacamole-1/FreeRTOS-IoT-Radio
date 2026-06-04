@@ -12,6 +12,11 @@
 #include <string.h>
 #include <stdio.h>
 
+#ifdef FREE_RTOS
+#include "clock.h"
+#include "display.h"
+#endif
+
 FieldInitFunc(spinner_init){
     Spinner *s = (Spinner *)f->data;
     s->_index = 0;
@@ -21,17 +26,28 @@ FieldInitFunc(spinner_init){
 FieldRenderFunc(spinner_render){
     Spinner *s = (Spinner *)f->data;
     char buf[MAX_COLUMNS+2];
-    LCDText_Clear();
     snprintf(buf,sizeof(buf),"%c %s",ARROW_CHAR,s->list[s->_index]);
     //center_text(buf,0);
+#ifndef FREE_RTOS
+    LCDText_Clear();
     LCDText_CursorSet(f->pos);
     LCDText_WriteString(buf);
+#else
+	DISPLAY_Clear();
+	DISPLAY_CursorSet(f->pos);
+	DISPLAY_Write(buf);
+#endif
 
     snprintf(buf,sizeof(buf),"  %s",s->list[s->_index >= s->list_size - 1 ? 0 : s->_index+1]);
-    //center_text(buf,1);
+
+#ifndef FREE_RTOS
     LCDText_SetCursor(f->pos.y+1,f->pos.x);
     LCDText_WriteString(buf);
-    
+#else
+	DISPLAY_SetCursor(f->pos.y+1,f->pos.x);
+	DISPLAY_Write(buf);
+#endif
+    //center_text(buf,1);
 }
 
 FieldCursorFunc(spinner_cursor){
@@ -48,7 +64,6 @@ FieldStepFunc(spinner_step){
     {
         s->_index = s->list_size-1;
     }
-    
     return true;
 }
 

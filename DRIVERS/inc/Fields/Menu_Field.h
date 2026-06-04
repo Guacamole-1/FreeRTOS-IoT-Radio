@@ -24,7 +24,7 @@ typedef struct
 {
     char        fmt[MAX_CHARS+1];
     Field       datefield;
-    Radio_Data  Rdata;
+    Radio_Data*  Rdata;
 } Menu_args;    
 
 #define INIT_MENUFIELD(pos,data) INIT_FIELD((pos),(data),Menu_Field)

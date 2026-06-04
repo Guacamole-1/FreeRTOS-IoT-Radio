@@ -7,15 +7,22 @@
 
 //#include "Menu_Funcs.h"
 #include "Fields/DateField.h"
+#include "LCD.h"
 #include "Radio.h"
+#include "clock.h"
 #include <string.h>
-#include "Fields/Menu_Field.h"   
+#include "Fields/Menu_Field.h"
 
 #define MAX_VOL     0xF
 #define MIN_VOL     0
 #define MAX_CHAN    0x3FF
 #define MIN_CHAN    0
 
+#ifdef FREE_RTOS
+#include "clock.h"
+#include "display.h"
+#include "radio_rtos.h"
+#endif
 
 
 // ex. "%d/%m/%Y vol:%v" = 19/4/2005 vol:5  
@@ -35,7 +42,7 @@ static void Radio_format(Field* f){
             {
             case 'v':
                 char vol[4] = {0}; // 1 or 2 digits + \0
-                int vol_size = snprintf(vol,4,"%02d",args->Rdata.volume); // ab%dc | ab2c
+                int vol_size = snprintf(vol,4,"%02d",args->Rdata->volume); // ab%dc | ab2c
                 if (vol_size < 0) vol_size = 0;
                 strncpy(final+j,vol,vol_size);
                 i += 1;
@@ -43,10 +50,10 @@ static void Radio_format(Field* f){
                 continue;
             case 'f':
                 char freq[6] = {0}; // "100.0" (5) + \0
-                double frequency = CURRENT_FREQ(((double)args->Rdata.channel));
+                double frequency = CURRENT_FREQ(((double)args->Rdata->channel));
                 int freq_size = snprintf(freq,6,"%.1f",frequency);
                 if (freq_size < 0) freq_size = 0;
-                
+
                 if (j + freq_size >= MAX_CHARS ) // writing too much 12 + 4 >= 15     15-12 = 3
                 {
                     int remainder = MAX_CHARS - j;
@@ -79,9 +86,14 @@ FieldRenderFunc(Menu_Field_render){
     Menu_args* args = (Menu_args*)f->data;
     Field df        = args->datefield;
     DateField* d     = df.data;
-    LCDText_Clear();
     Radio_format(f);
+#ifndef FREE_RTOS
+    LCDText_Clear();
     RTC_GetTimeDate(&d->_date);
+#else
+	DISPLAY_Clear();
+	CLOCK_GetTimeDate(&d->_date);
+#endif
     df.render(&df,0);
 }
 
@@ -91,12 +103,16 @@ FieldCursorFunc(Menu_Field_cursor){
 
 FieldStepFunc(Menu_Field_step){
     Menu_args* args = (Menu_args*)f->data;
-    int new = args->Rdata.volume + (up ? 1 : -1); //14+1 = 15
+    int new = args->Rdata->volume + (up ? 1 : -1); //14+1 = 15
 
     if (new <= MAX_VOL && new >= MIN_VOL)
     {
-        args->Rdata.volume = new;
-        Set_Volume(&args->Rdata,NULL);
+        args->Rdata->volume = new;
+#ifndef FREE_RTOS
+        Set_Volume(args->Rdata,NULL);
+#else
+		RADIO_RTOS_SET_VOLUME(args->Rdata, NULL);
+#endif
         return true;
     }
   return false;
@@ -104,12 +120,16 @@ FieldStepFunc(Menu_Field_step){
 
 FieldShiftFunc(Menu_Field_shift){
     Menu_args* args = (Menu_args*)f->data;
-    int new = args->Rdata.channel + (right ? 1 : -1);
+    int new = args->Rdata->channel + (right ? 1 : -1);
 
     if (new <= MAX_CHAN && new >= MIN_CHAN)
     {
-        args->Rdata.channel = new;
-        Set_Channel(&args->Rdata,NULL);
+        args->Rdata->channel = new;
+#ifndef FREE_RTOS
+        Set_Channel(args->Rdata,NULL);
+#else
+		RADIO_RTOS_SET_CHANNEL(args->Rdata,NULL);
+#endif
         return true;
     }
     return false;
@@ -117,7 +137,11 @@ FieldShiftFunc(Menu_Field_shift){
 
 FieldSaveFunc(Menu_Field_save){
     Menu_args* args = (Menu_args*)f->data;
-    Save_RData(&args->Rdata);
+#ifndef FREE_RTOS
+    Save_RData(args->Rdata);
+#else
+	RADIO_RTOS_SAVE_DATA(args->Rdata);
+#endif
 }
 
 FieldCancelFunc(Menu_Field_cancel){
