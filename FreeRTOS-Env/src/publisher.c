@@ -155,9 +155,9 @@ static void Publisher_Task(void *pvParameters) {
 	while (true) {
 		switch (state) {
 		case STATE_INIT:
-			if (WIFI_RTOS_GetStatus(NULL, 0) == SUCCESS){
-				NETWORK_Close();
-			}
+
+			NETWORK_Close();
+
 			if (!NETWORK_Connect(MQTT_ADDRESS, MQTT_PORT, CONNECTION_KEEPALIVE_S)) {
 				state++;
 			}

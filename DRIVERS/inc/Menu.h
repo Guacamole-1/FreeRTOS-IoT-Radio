@@ -58,7 +58,7 @@ void Menu_Init(Radio_Data* Rdata);
  * and increment/decrement time and volume
  * 
  */
-void Main_Menu();
+__attribute__((weak)) void Main_Menu();
 /**
  * @brief Generic Confirmation menu
  * 
@@ -68,7 +68,13 @@ void Main_Menu();
  */
 void Confirmation_Menu(char* Conf_text, action yes, action no);
 
+void Menu_FreqDel();
 
+void Menu_VolDel();
+
+void Menu_LcdSetup(int cursor_cmd);
+
+void Menu_empty_func();
 #endif /* MENU_H_ */
 
 /**

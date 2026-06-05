@@ -24,7 +24,8 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-
+#define SSID "HOH"
+#define PASS "spaghetto"
 #include "base.h"
 
 #ifdef __cplusplus

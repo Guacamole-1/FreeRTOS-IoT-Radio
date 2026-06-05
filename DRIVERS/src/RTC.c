@@ -86,8 +86,11 @@ static tm get_time(){
 void RTC_GetTimeDate(tm *dateTime){
     tm first = get_time();
 	tm sec = get_time();
-    if (sec.tm_mday != first.tm_mday || sec.tm_yday != first.tm_yday || sec.tm_yday != first.tm_yday) //23:59:59 31 dez 2025  
-    {                                                                                                //00:00:00 1 jan 2026
+    if ((sec.tm_mday != first.tm_mday) ||
+		(sec.tm_mon  != first.tm_mon)  ||
+		(sec.tm_year != first.tm_year) ||
+		(sec.tm_yday != first.tm_yday)) //23:59:59 31 dez 2025 
+    { //00:00:00 1 jan 2026
         *dateTime = get_time();
     }else{
         *dateTime = sec;

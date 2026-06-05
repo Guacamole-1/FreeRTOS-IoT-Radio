@@ -91,7 +91,7 @@ bool Menu_SM(Field* field,bool always_render,bool main_state){
         }
         if (render || always_render)
         {
-            field->render(field,true);
+            field->render(field,!main_state);
             render = false;
         }
         DELAY_Milliseconds(100);
@@ -99,7 +99,7 @@ bool Menu_SM(Field* field,bool always_render,bool main_state){
     return false;
 }
 
-static void lcd_setup(int cursor_cmd){
+void Menu_LcdSetup(int cursor_cmd){
 	#ifndef FREE_RTOS
 		lcd_write8(&CURSOR_SETUP(cursor_cmd));
 		LCDText_Clear();
@@ -113,8 +113,8 @@ void Calendar_Menu(){
     DateField d = {"%a %d %b %Y"};
     Cursor c = (Cursor){0,0};
     Field date = INIT_DATEFIELD(c,&d);
-    date.init(&date);
-	lcd_setup(BLINK_ON | CURSOR_ON);
+    //date.init(&date);
+	Menu_LcdSetup(BLINK_ON | CURSOR_ON);
     Menu_SM(&date,false,false);
 }
 
@@ -122,11 +122,11 @@ void Clock_Menu(){
     DateField d = {"%H:%M:%S"};
     Cursor c = (Cursor){4,0};
     Field date = INIT_DATEFIELD(c,&d);
-    date.init(&date);
-    lcd_setup(BLINK_ON|CURSOR_ON);
+    //date.init(&date);
+    Menu_LcdSetup(BLINK_ON|CURSOR_ON);
     Menu_SM(&date,false,false);
 }
-void empty_func(){
+void Menu_empty_func(){
     return;
 }
 static void _Freq_Del(){
@@ -149,16 +149,16 @@ static void _Vol_Del(){
 }
 
 
-static void Freq_Del(){
-    Confirmation_Menu("Del. freq. data?",_Freq_Del,empty_func);
+void Menu_FreqDel(){
+    Confirmation_Menu("Del. freq. data?",_Freq_Del,Menu_empty_func);
 }
 
-static void Vol_Del(){
-    Confirmation_Menu("Del. vol. data?",_Vol_Del,empty_func);
+void Menu_VolDel(){
+    Confirmation_Menu("Del. vol. data?",_Vol_Del,Menu_empty_func);
 }
 
 void Confirmation_Menu(char* Conf_text, action yes, action no){
-	lcd_setup(BLINK_ON|CURSOR_ON);
+	Menu_LcdSetup(BLINK_ON|CURSOR_ON);
 
     Cursor c = {0,0};
     const char* const strs[] = {Conf_text,"Yes","No"};
@@ -171,15 +171,14 @@ void Confirmation_Menu(char* Conf_text, action yes, action no){
     Menu_SM(&field,false,false);
 }
 
-void Menu_Maintenance(){
+__attribute__((weak)) void Menu_Maintenance(){
     Cursor c = {3,0};
     const char* const list[] = {"Calendar","Clock","Del. Freq.","Del. Volume"};
-    action funcs[] =  {Calendar_Menu,Clock_Menu,Freq_Del,Vol_Del};
+    action funcs[] =  {Calendar_Menu,Clock_Menu,Menu_FreqDel,Menu_VolDel};
     Spinner sp    =   {list,4,funcs};
     Field field   =   INIT_FIELDSPINNER(c,&sp);
-    lcd_setup(BLINK_OFF|CURSOR_OFF);
+    Menu_LcdSetup(BLINK_OFF|CURSOR_OFF);
     Menu_SM(&field,false,false);
-
 }
 
 void Main_Menu(){
@@ -187,9 +186,9 @@ void Main_Menu(){
     DateField d = {0};
     Field datefield = INIT_DATEFIELD(c,&d);
 
-    Menu_args args = {"%d/%m/%Y v:%v %H:%M:%S %fMHz",datefield,radio_data};
+    Menu_args args = {"%d/%m/%Y V:%v %H:%M:%S %fMHz",datefield,radio_data};
     Field f = INIT_MENUFIELD(c,&args);
-	lcd_setup(BLINK_OFF|CURSOR_OFF);
+	Menu_LcdSetup(BLINK_OFF|CURSOR_OFF);
     Menu_SM(&f,true,true);
     datefield.cancel(&datefield); // to avoid future memory leaks
 }

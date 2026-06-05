@@ -16,7 +16,7 @@
 #include "base.h"
 #include "clock.h"
 #include "display.h"
-#include "Wifi.h"
+#include "wifi_rtos.h"
 
 #define NTP_SERVER                 "pool.ntp.org"
 #define NTP_PORT                   123U
@@ -68,23 +68,24 @@ bool TIME_SYNC_RequestUnixTime(time_t *unix_time) {
      */
     ntp_packet[0] = 0xE3U;
 
-    if (!WIFI_OpenUDP(NTP_SERVER, NTP_PORT,NTP_TIMEOUT_MS/1000)) {
+	WIFI_RTOS_Close();
+	if (WIFI_RTOS_OpenUdp(NTP_SERVER, NTP_PORT,NTP_TIMEOUT_MS/1000) != SUCCESS) {
         return false;
     }
 
-    if (!WIFI_Send(ntp_packet, NTP_PACKET_SIZE)) {
-        (void)WIFI_Close();
+    if (WIFI_RTOS_Send(ntp_packet, NTP_PACKET_SIZE) == -1) {
+        (void)WIFI_RTOS_Close();
         return false;
     }
 
-    if ((received_len = WIFI_ReceiveUDP(ntp_response,
+    if ((received_len = WIFI_RTOS_ReceiveUdp(ntp_response,
                          sizeof(ntp_response),
                          NTP_TIMEOUT_MS)) == -1 ) {
-        (void)WIFI_Close();
+        (void)WIFI_RTOS_Close();
         return false;
     }
 
-    (void)WIFI_Close();
+    (void)WIFI_RTOS_Close();
 
     if (received_len < NTP_PACKET_SIZE) {
         return false;
@@ -120,7 +121,7 @@ static void TIME_SYNC_Task(void *pvParameters) {
     TIME_SYNC_Display("Time Sync", "WiFi init...");
     vTaskDelay(pdMS_TO_TICKS(500));
 
-    if (!WIFI_Init()) {
+    if (!WIFI_RTOS_Init()) {
         TIME_SYNC_Display("Time Sync", "WiFi init fail");
         time_sync_task_handle = NULL;
         vTaskDelete(NULL);
@@ -129,7 +130,7 @@ static void TIME_SYNC_Task(void *pvParameters) {
     TIME_SYNC_Display("Time Sync", "Station...");
     vTaskDelay(pdMS_TO_TICKS(500));
 
-    if (!WIFI_SetModeStation()) {
+    if (!WIFI_RTOS_SetModeStation()) {
         TIME_SYNC_Display("Time Sync", "Mode fail");
         time_sync_task_handle = NULL;
         vTaskDelete(NULL);
@@ -138,7 +139,7 @@ static void TIME_SYNC_Task(void *pvParameters) {
     TIME_SYNC_Display("Time Sync", "Connecting...");
     vTaskDelay(pdMS_TO_TICKS(500));
 
-    if (!WIFI_ConnectAP(ctx->ssid, ctx->password)) {
+    if (!WIFI_RTOS_ConnectAp(ctx->ssid, ctx->password)) {
         TIME_SYNC_Display("Time Sync", "WiFi fail");
         time_sync_task_handle = NULL;
         vTaskDelete(NULL);

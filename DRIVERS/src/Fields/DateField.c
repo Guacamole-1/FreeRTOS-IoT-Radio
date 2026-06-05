@@ -247,7 +247,7 @@ FieldInitFunc(date_init)
 
         case 'j': // day of year (0-365)
             value_ptr = &d->_date.tm_yday;
-            min = 0;  max = is_leap(d->_date.tm_year) ? 365 : 364;
+            min = 0;  max = is_leap(d->_date.tm_year + 1900) ? 365 : 364;
             break;
 
         case 'w': // day of week (0-6, Sunday = 0)
@@ -278,16 +278,28 @@ FieldInitFunc(date_init)
 
 FieldRenderFunc(date_render){
     DateField* d = (DateField*)f->data;
-    IntField* field = (IntField*)d->_fields[d->_field_index]->data;
-    char buf[MAX_CHARS+1];
+    char buf[MAX_CHARS + 1];
 
-    //RTC_GetTimeDate(&d->_date);
+    if (focused && d->_fields && d->_field_count > 0) {
+        Field *active_field = d->_fields[d->_field_index];
+        IntField *field = active_field ? (IntField *)active_field->data : NULL;
 
-    int temp = *field->value;
+        if (field != NULL) {
+            int temp = *field->value;
 
-    *field->value = field->_display_val;
-    strftime(buf,sizeof(buf),d->fmt,&d->_date);
-    *field->value = temp;
+            *field->value = field->_display_val;
+            strftime(buf, sizeof(buf), d->fmt, &d->_date);
+            *field->value = temp;
+        } else {
+            strftime(buf, sizeof(buf), d->fmt, &d->_date);
+        }
+    } else {
+        /*
+         * Display-only mode.
+         * Do not override tm_mday/tm_mon/tm_year with old _display_val.
+         */
+        strftime(buf, sizeof(buf), d->fmt, &d->_date);
+    }
 #ifndef FREE_RTOS
     LCDText_CursorSet(f->pos);
     LCDText_WriteString(buf);
@@ -392,6 +404,7 @@ FieldSaveFunc(date_save){
     {
         d->_fields[i]->save(d->_fields[i]);
     }
+
 	#ifndef FREE_RTOS
 		RTC_SetTimeDate(&d->_date);
 	#else
