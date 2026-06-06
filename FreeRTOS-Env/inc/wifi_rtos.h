@@ -24,8 +24,8 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#define SSID "HOH"
-#define PASS "spaghetto"
+#define SSID "iphone1234"
+#define PASS "SEIOT1234"
 #include "base.h"
 
 #ifdef __cplusplus
