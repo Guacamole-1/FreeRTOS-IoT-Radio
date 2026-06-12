@@ -8,9 +8,9 @@
  */
 
 /**
- * @defgroup button_module NAV7BTN Module
+ * @defgroup button_module Button Module
  * @ingroup free_rtos
- * @brief Asynchronous LCD display manager.
+ * @brief RTOS wrapper for NAV7BTN buttons
  * @{
  */
 #ifndef BUTTON_H

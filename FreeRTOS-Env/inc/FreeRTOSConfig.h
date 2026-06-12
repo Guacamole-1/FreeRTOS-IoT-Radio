@@ -1,3 +1,19 @@
+/**
+ * @file FreeRTOSConfig.h
+ * @brief This header file provides the FreeRTOS kernel configuration for the project.
+ * @version 1
+ * @date 12 Jun 2026
+ * @author Grupo 08
+ *
+ */
+
+/**
+ * @defgroup freertos_config_module FreeRTOS Configuration Module
+ * @ingroup free_rtos
+ * @brief Application-specific FreeRTOS kernel configuration values.
+ * @{
+ */
+
 /*
     FreeRTOS Kernel V11.1.0
     Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
@@ -136,3 +152,4 @@ extern uint32_t TIMER_RuntimeStatsGet(void);
 
 #endif /* FREERTOS_CONFIG_H */
 
+/** @} */

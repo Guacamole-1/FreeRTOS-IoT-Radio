@@ -15,6 +15,7 @@
  * @{
  */
 #ifndef CLOCK_H_
+#define CLOCK_H_
 
 #include "RTC.h"
 #include "base.h"
@@ -29,8 +30,9 @@
  *
  * @param seconds Number of seconds since 00:00:00 UTC, 1 January 1970.
  *
- * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the internal lock
- *         could not be created.
+ * @return SUCCESS on success.
+ * @return ALREADY_INITIALIZED if the module was already initialized.
+ * @return ERROR if the underlying RTC initialization fails.
  */
 base_t CLOCK_Init(time_t seconds);
 
@@ -42,8 +44,9 @@ base_t CLOCK_Init(time_t seconds);
  * @param dateTime Pointer to a `tm` structure containing the date and time
  *                 to be written to the RTC.
  *
- * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the module lock
- *         could not be acquired.
+ * @return SUCCESS on success.
+ * @return NOT_INITIALIZED if CLOCK_Init was not called.
+ * @return ARG_ERROR if @p dateTime is NULL.
  */
 base_t CLOCK_SetTimeDate(tm *dateTime);
 
@@ -56,8 +59,9 @@ base_t CLOCK_SetTimeDate(tm *dateTime);
  * @param dateTime Pointer to a `tm` structure to be filled with the current
  *                 date and time.
  *
- * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the module lock
- *         could not be acquired.
+ * @return SUCCESS on success.
+ * @return NOT_INITIALIZED if CLOCK_Init was not called.
+ * @return ARG_ERROR if @p dateTime is NULL.
  */
 base_t CLOCK_GetTimeDate(tm *dateTime);
 
@@ -69,8 +73,9 @@ base_t CLOCK_GetTimeDate(tm *dateTime);
  *
  * @param seconds Pointer to a `time_t` variable where the result will be stored.
  *
- * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the module lock
- *         could not be acquired.
+ * @return SUCCESS on success.
+ * @return NOT_INITIALIZED if CLOCK_Init was not called.
+ * @return ARG_ERROR if @p seconds is NULL.
  */
 base_t CLOCK_GetSeconds(time_t *seconds);
 
@@ -82,12 +87,10 @@ base_t CLOCK_GetSeconds(time_t *seconds);
  *
  * @param seconds Number of seconds since 00:00:00 UTC, 1 January 1970.
  *
- * @return CLOCK_SUCCESS on success, CLOCK_LOCK_ERROR if the module lock
- *         could not be acquired.
+ * @return SUCCESS on success.
+ * @return NOT_INITIALIZED if CLOCK_Init was not called.
  */
 base_t CLOCK_SetSeconds(time_t seconds);
-
-#define CLOCK_H_
 
 #endif /* CLOCK_H_ */
 

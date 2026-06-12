@@ -161,15 +161,25 @@ base_t DISPLAY_Clear(void);
 /**
  * @brief Main display processing loop.
  *
- * This function is intended to run inside a dedicated FreeRTOS task.
- * It continuously processes queued display messages.
+ * This function is intended to run inside a dedicated FreeRTOS task. It
+ * continuously receives DISPLAY_Item messages from the internal queue and
+ * executes the corresponding LCD operation.
  *
  * Normally does not return.
  *
- * @return Never normally returns
+ * @param args Unused FreeRTOS task parameter.
  */
 void DISPLAY_Manager(void* args);
 
+/**
+ * @brief Starts the display manager task.
+ *
+ * Creates the FreeRTOS task that runs DISPLAY_Manager(). DISPLAY_Init() must
+ * be called successfully before starting the task.
+ *
+ * @return SUCCESS if the task was created successfully.
+ * @return ERROR if task creation failed.
+ */
 base_t DISPLAY_TaskStart();
 
 #endif /* DISPLAY_H_ */
