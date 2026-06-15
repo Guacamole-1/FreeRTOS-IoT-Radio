@@ -74,8 +74,10 @@ O presente projeto (Radio FM com Telemetria e Calendário), realizado no âmbito
 
 No arranque do sistema, a task principal (APP_Task) inicializa sequencialmente todos os módulos: LCD, botões, Wi-Fi, ligação ao ponto de acesso, sincronização NTP, relógio (RTC), rádio FM e publicação MQTT. Após a inicialização, o menu principal fica ativo aguardando interação do utilizador, enquanto a task publisher envia telemetria periodicamente e a task Display_Manager gere todas as escritas no LCD.
 
-![Figura 1 – Visão Geral da Montagem em breadboard](./report_assets/Picture1.png)
-*Figura 1 – Visão Geral da Montagem em breadboard*
+<div align="center">
+  <img src="./report_assets/Picture1.png" width="700" alt="Visão Geral da Montagem em breadboard">
+  <p><em>Figura 1 – Visão Geral da Montagem em breadboard</em></p>
+</div>
 
 ### 1.2 Modos de Funcionamento
 
