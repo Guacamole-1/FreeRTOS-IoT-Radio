@@ -193,8 +193,11 @@ O LCD é um recurso partilhado. A abordagem escolhida foi implementar um *produc
 
 Como ilustrado na Figura 11, a task inicia por limpar o LCD e posicionar o cursor em (0, 0). Em seguida, verifica a *flag* de inicialização e recebe o próximo item da fila. O campo "id" de cada item é avaliado por um switch que o distingue entre quatro tipos de operação: `WRITE_STR` (escrita de string), `CURSOR_SET` (posicionar cursor), `WRITE_CMD` (comando direto) e `CLEAR` (limpar ecrã). Caso o identificador não corresponda a nenhum destes (`DEFAULT`), o item é ignorado e a task volta a aguardar por um novo.
 
-![Figura 11 – Fluxograma da Display Task](figuras/Figura_11_Fluxograma_Display_Task.png)
-*Figura 11 – Fluxograma da Display Task*
+<div align="center">
+  <img src="./report_assets/Picture11.png" width="600" alt="Fluxograma da Display Task">
+  <br>
+  <em>Figura 11 – Fluxograma da Display Task</em>
+</div>
 
 ### 2.3 Gestor dos Botões
 
@@ -202,8 +205,11 @@ A leitura dos botões é feita por um timer de 100ms (`BTN_SCAN_PERIOD_MS`). Na 
 
 A Figura 12 demonstra a arquitetura descrita: numa primeira fase a task cria a fila (`xQueue`) e o temporizador (`xTimer`) iniciando-o. De seguida, o `xTimer` a cada iteração de 100ms chama `NavBTN_Pressed()` para verificar o estado dos botões. Se retornar `NAVBTN_NONE`, a execução do temporizador termina. Caso seja retornado `NAVBTN_*` (onde * corresponde ao botão pressionado), esse evento é enviado para a fila `xQueue`, ficando assim disponível para as tasks que aguardam algum input, como é o exemplo da MenuTask.
 
-![Figura 12 – Fluxograma da Button Timer Task](figuras/Figura_12_Fluxograma_Button_Timer_Task.png)
-*Figura 12 – Fluxograma da Button Timer Task*
+<div align="center">
+  <img src="./report_assets/Picture12.png" width="600" alt="Fluxograma da Button Timer Task">
+  <br>
+  <em>Figura 12 - Fluxograma da Button Timer Task</em>
+</div>
 
 ### 2.4 Wrappers Thread-Safe com Mutex
 
@@ -239,8 +245,11 @@ A cada 30 segundos (utilizando `DELAY_GetElapsedMillis`), o sistema publica no t
 
 A camada de transporte usa a biblioteca MQTTPacket para serialização/deserialização dos pacotes MQTT, sobre um socket TCP gerido pelo wrapper WIFI_RTOS. Um buffer circular interno (`RECV_BUF_SIZE`) garante que dados recebidos em múltiplos fragmentos TCP são corretamente remontados.
 
-![Figura 13 – Fluxograma da Publisher Task](figuras/Figura_13_Fluxograma_Publisher_Task.png)
-*Figura 13 – Fluxograma da Publisher Task*
+<div align="center">
+  <img src="./report_assets/Picture13.png" width="600" alt="Fluxograma da Button Timer Task">
+  <br>
+  <em>Figura 13 – Fluxograma da Publisher Task</em>
+</div>
 
 ### 2.7 Menu de Manutenção
 
@@ -257,8 +266,11 @@ No bloco **Maintenance Mode**, o sistema apresenta as opções disponíveis, per
 
 Por fim, o bloco **Sync Clock** demonstra o procedimento de sincronização NTP descrito anteriormente.
 
-![Figura 14 – Fluxograma da MenuTask](figuras/Figura_14_Fluxograma_MenuTask.png)
-*Figura 14 – Fluxograma da MenuTask*
+<div align="center">
+  <img src="./report_assets/Picture14.png" width="600" alt="Fluxograma da Button Timer Task">
+  <br>
+  <em>Figura 14 – Fluxograma da MenuTask</em>
+</div>
 
 ---
 
@@ -266,8 +278,11 @@ Por fim, o bloco **Sync Clock** demonstra o procedimento de sincronização NTP 
 
 O hardware base é idêntico ao do semestre anterior: LPC1769 como microcontrolador, Módulo Radio FM RDA5807 por I2C, LCD de 8 bits, módulo Nav7Btn com 7 botões e conversor StepUp para alimentação do LCD. Como novidade, temos a adição do módulo ESP8266 conectado ao LPC1769 por UART.
 
-![Figura 15 – Diagrama de Blocos do Projeto](figuras/Figura_15_Diagrama_Blocos_Projeto.png)
-*Figura 15 – Diagrama de Blocos do Projeto*
+<div align="center">
+  <img src="./report_assets/Picture15.png" width="600" alt="Fluxograma da Button Timer Task">
+  <br>
+  <em>Figura 15 – Diagrama de Blocos do Projeto</em>
+</div>
 
 ### 3.1 Arquitetura de Software em Camadas
 
