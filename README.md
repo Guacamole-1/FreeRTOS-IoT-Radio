@@ -1,6 +1,7 @@
 # Relatório do Projeto de Radio FM com Telemetria e Calendário — Grupo 08
 
-**Departamento de Engenharia de Eletrónica e Telecomunicações e de Computadores** Licenciatura em Engenharia Eletrónica e Telecomunicações e de Computadores
+**Departamento de Engenharia de Eletrónica e Telecomunicações e de Computadores** 
+*Licenciatura em Engenharia Eletrónica e Telecomunicações e de Computadores*
 
 **Sistemas Embebidos IoT** **Projeto - Radio FM com Telemetria e Calendário** **Relatório – Grupo 08**
 
