@@ -75,7 +75,7 @@ O presente projeto (Radio FM com Telemetria e Calendário), realizado no âmbito
 No arranque do sistema, a task principal (APP_Task) inicializa sequencialmente todos os módulos: LCD, botões, Wi-Fi, ligação ao ponto de acesso, sincronização NTP, relógio (RTC), rádio FM e publicação MQTT. Após a inicialização, o menu principal fica ativo aguardando interação do utilizador, enquanto a task publisher envia telemetria periodicamente e a task Display_Manager gere todas as escritas no LCD.
 
 <div align="center">
-  <img src="./report_assets/Picture1.png" width="700" alt="Visão Geral da Montagem em breadboard">
+  <img src="./report_assets/Picture1.png" width="600" alt="Visão Geral da Montagem em breadboard">
   <p><em>Figura 1 – Visão Geral da Montagem em breadboard</em></p>
 </div>
 
@@ -87,8 +87,25 @@ O sistema apresenta dois modos principais de funcionamento: o **Modo Normal**, o
 
 O menu de manutenção é composto por três pares de opções navegáveis com os botões Up/Down. O cursor ">" na linha superior indica a opção atualmente selecionada. As primeiras duas opções (Edit Calendar e Edit Clock) permitem editar a data e hora manualmente. As seguintes (Del. Freq. e Del. Volume) permitem apagar os valores guardados em flash. As duas últimas opções (Sync Clock e Connect WiFi) permitem sincronizar o relógio via NTP e reconectar o módulo Wi-Fi, respetivamente.
 
-![Figura 2-3-4 – Menus de Manutenção](figuras/Figura_02-03-04_Menus_Manutencao.png)
-*Figuras 2, 3 e 4 – Menus: Edit Calendar/Edit Clock | Del. Freq/Del. Volume | Sync Clock/Connect WiFi*
+<table>
+  <tr>
+    <td align="center">
+      <img src="./report_assets/Picture2.png" width="250" alt="Menu Edit Calendar">
+      <br>
+      <em>Figura 2 – Menu: Edit Calendar e Edit Clock</em>
+    </td>
+    <td align="center">
+      <img src="./report_assets/Picture3.png" width="250" alt="Menu Del Freq">
+      <br>
+      <em>Figura 3 – Menu: Del. Freq e Del. Volume</em>
+    </td>
+    <td align="center">
+      <img src="./report_assets/Picture4.png" width="250" alt="Menu Sync Clock">
+      <br>
+      <em>Figura 4 – Menu: Sync Clock e Connect WiFi</em>
+    </td>
+  </tr>
+</table>
 
 ##### 1.2.1.1 Edit Calendar e Edit Clock
 
