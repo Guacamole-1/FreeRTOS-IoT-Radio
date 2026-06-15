@@ -132,15 +132,32 @@ Ao selecionar a opção **Edit Calendar**, o LCD passa a mostrar a data completa
 
 A opção **Sync Clock** desencadeia uma sincronização manual do relógio via protocolo NTP. Durante o processo, o LCD exibe a mensagem "Synchronizing time…" enquanto o sistema abre um socket UDP para a pool.ntp.org na porta 123, envia o pacote de pedido NTP e aguarda a resposta. Após receber o timestamp do servidor, o sistema converte-o para hora local (UTC+1) e atualiza o RTC do LPC1769 em tempo real.
 
-![Figura 7 – LCD durante a sincronização NTP](figures/Figura_07_LCD_Sincronizacao_NTP.png)
-*Figura 7 – LCD durante a sincronização NTP*
+<div align="center">
+  <img src="./report_assets/Picture7.png" width="250" alt="Synchronizing time">
+  <br>
+  <em>Figura 7 – LCD durante a sincronização NTP</em>
+</div>
 
 ##### 1.2.1.3 Connect WiFi – Ligação ao Ponto de Acesso
 
 A opção **Connect WiFi** permite reconectar o módulo ESP8266 ao ponto de acesso configurado (SSID e password definidos em tempo de compilação). Durante o processo de ligação, o LCD apresenta "Connecting to AP: \<SSID\>…". Quando a ligação é estabelecida com sucesso, a mensagem muda para "Connected to AP: \<SSID\>", indicando que o módulo Wi-Fi está pronto para comunicar com o broker MQTT e o servidor NTP.
 
-![Figura 8-9 – Mensagens de Ligação ao AP](figuras/Figura_08-09_Mensagens_WiFi.png)
-*Figuras 8 e 9 – Mensagem de Ligação ao AP | Mensagem de Conectado ao AP*
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="./report_assets/Picture8.png" width="250" alt="Connecting to AP">
+        <br>
+        <em>Figura 8 – Mensagem de Ligação ao AP</em>
+      </td>
+      <td align="center">
+        <img src="./report_assets/Picture9.png" width="250" alt="Connected to AP">
+        <br>
+        <em>Figura 9 – Mensagem de Conectado ao AP</em>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 
@@ -164,8 +181,11 @@ A APP_Task é a primeira task do código e tem como objetivo inicializar todo o 
 
 Caso a ligação NTP seja bem-sucedida, o RTC é inicializado com o tempo recebido do servidor. Em caso de falha, o sistema tenta inicializar o RTC com o tempo guardado previamente na memória flash; se esta informação também não existir, recorre ao *built-in time* como último recurso. Assim garantimos que o relógio tem sempre um valor válido, mesmo sem ligação à rede. Após a inicialização do RTC, é inicializado o módulo de rádio, arrancando assim a Publisher Task e, por fim, lança o Menu Principal, que corre indefinidamente.
 
-![Figura 10 – Fluxograma da APP_Task](figuras/Figura_10_Fluxograma_APP_Task.png)
-*Figura 10 – Fluxograma da APP_Task (Inicialização do sistema)*
+<div align="center">
+  <img src="./report_assets/Picture10.png" width="600" alt="Fluxograma da APP_Task">
+  <br>
+  <em>Figura 10 – Fluxograma da APP_Task (Inicialização do sistema)</em>
+</div>
 
 ### 2.2 Gestor do Display
 
