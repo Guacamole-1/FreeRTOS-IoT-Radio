@@ -15,6 +15,8 @@ João Santos, Nº51009
 
 ---
 
+<div align="justify">
+
 ## Resumo
 
 O presente relatório descreve o desenvolvimento da extensão IoT do projeto de Rádio FM com Calendário, realizado no âmbito da Unidade Curricular (UC) de Sistemas Embebidos IoT. O projeto anterior, desenvolvido na UC de Sistemas Embebidos, consistiu na implementação de um rádio FM autónomo, com interface de utilizador local baseada num LCD e num módulo de botões Nav7Btn, utilizando um driver de camadas sequencial e sem sistema operativo. Neste semestre, o sistema foi migrado para uma arquitetura baseada no FreeRTOS, adicionando conectividade Wi-Fi através do módulo ESP8266 via UART, sincronização automática de tempo por NTP e publicação de telemetria (volume e estação rádio) num broker MQTT. A transição para RTOS exigiu a criação de *wrappers* *thread-safe* para todos os drivers existentes (LCD, rádio, botões, relógio) com recurso a *mutex* e filas de mensagens, garantindo acesso concorrente seguro aos periféricos. O sistema resultante é capaz de sincronizar o relógio automaticamente com um servidor NTP, publicar periodicamente dados de telemetria via protocolo MQTT, e manter toda a funcionalidade do projeto anterior.
@@ -304,8 +306,11 @@ A arquitetura do semestre anterior foi conservada e estendida com uma nova camad
 
 O diagrama seguinte resume o fluxo de comunicação entre os componentes IoT do sistema implementado.
 
-![Figura 16 – Diagrama de Fluxo de Comunicação IoT](figuras/Figura_16_Diagrama_Fluxo_Comunicacao_IoT.png)
-*Figura 16 – Diagrama de Fluxo de Comunicação IoT*
+<div align="center">
+  <img src="./report_assets/Picture16.png" width="600" alt="Fluxograma da Button Timer Task">
+  <br>
+  <em>Figura 16 – Diagrama de Fluxo de Comunicação IoT</em>
+</div>
 
 ---
 
@@ -318,6 +323,8 @@ A abordagem de *wrappers* thread-safe revelou-se eficaz para proteger recursos p
 A publicação MQTT implementou um cliente de raiz com a biblioteca MQTTPacket para a serialização de pacotes, gerindo o ciclo completo de ligação TCP, handshake MQTT, subscrição e publicação periódica. A máquina de estados do Publisher_Task garante recuperação automática em caso de perda de ligação.
 
 Em suma, os objetivos propostos foram cumpridos: o sistema é funcional e mantém a base sólida do semestre anterior, construindo um projeto completo e bem estruturado.
+
+</div>
 
 ---
 
