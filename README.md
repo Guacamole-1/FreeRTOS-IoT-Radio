@@ -1,11 +1,8 @@
 # Relatório do Projeto de Radio FM com Telemetria e Calendário — Grupo 08
 
-**Departamento de Engenharia de Eletrónica e Telecomunicações e de Computadores**  
-Licenciatura em Engenharia Eletrónica e Telecomunicações e de Computadores
+**Departamento de Engenharia de Eletrónica e Telecomunicações e de Computadores** Licenciatura em Engenharia Eletrónica e Telecomunicações e de Computadores
 
-**Sistemas Embebidos IoT**  
-**Projeto - Radio FM com Telemetria e Calendário**  
-**Relatório – Grupo 08**
+**Sistemas Embebidos IoT** **Projeto - Radio FM com Telemetria e Calendário** **Relatório – Grupo 08**
 
 Duarte Santos, Nº51764  
 Rafael Vaz, Nº45887  
@@ -57,11 +54,13 @@ O projeto anterior (Rádio FM com Calendário), realizado na UC de Sistemas Embe
 
 O presente projeto (Radio FM com Telemetria e Calendário), realizado no âmbito da UC de Sistemas Embebidos IoT, mantém toda a base de hardware e software anterior, acrescentando as seguintes novidades:
 
-- Execução concorrente com FreeRTOS sobre o mesmo microcontrolador LPC1769;
-- Conectividade Wi-Fi via módulo ESP8266 por UART com comandos AT;
-- Sincronização automática de relógio via protocolo NTP (pool.ntp.org);
-- Publicação periódica de telemetria (volume e estação FM) via MQTT;
-- Wrappers RTOS-safe para todos os drivers partilhados entre tasks.
+* Execução concorrente com FreeRTOS sobre o mesmo microcontrolador LPC1769;
+* Conectividade Wi-Fi via módulo ESP8266 por UART com comandos AT;
+* Sincronização automática de relógio via protocolo NTP (pool.ntp.org);
+* Publicação periódica de telemetria (volume e estação FM) via MQTT;
+* Wrappers RTOS-safe para todos os drivers partilhados entre tasks.
+
+<br>
 
 **Tabela 1 – Novos Periféricos e a sua Descrição**
 
@@ -74,9 +73,10 @@ O presente projeto (Radio FM com Telemetria e Calendário), realizado no âmbito
 
 ### 1.1 Fluxo Geral do Sistema e Montagem do Hardware
 
-No arranque do sistema, a task principal (APP_Task) inicializa sequencialmente todos os módulos: LCD, botões, Wi-Fi, ligação ao ponto de acesso, sincronização NTP, relógio (RTC), rádio FM e publicação MQTT. Após a inicialização, o menu principal fica ativo aguardando interação do utilizador, enquanto a task publisher envia telemetria periodicamente e a task Display_Manager gere todas as escritas no LCD.
+No arranque do sistema, a task principal (APP_Task) inicializa sequencialmente todos os módulos: LCD, botões, Wi-Fi, ligação ao ponto de acesso, sincronização NTP, relógio (RTC), rádio FM e publicação MQTT. Após a inicialização, o menu principal fica ativo aguardando interação do utilizador, enquanto a task publisher envia telemetria periodicamente e a task Display_Manager gere todas as escritas no LCD. (<a href="#fig1">ver Figura 1</a>)
 
 <div align="center">
+  <a name="fig1"></a>
   <img src="./report_assets/Picture1.png" width="600" alt="Visão Geral da Montagem em breadboard">
   <p><em>Figura 1 – Visão Geral da Montagem em breadboard</em></p>
 </div>
@@ -87,41 +87,48 @@ O sistema apresenta dois modos principais de funcionamento: o **Modo Normal**, o
 
 #### 1.2.1 Menu de Manutenção
 
-O menu de manutenção é composto por três pares de opções navegáveis com os botões Up/Down. O cursor ">" na linha superior indica a opção atualmente selecionada. As primeiras duas opções (Edit Calendar e Edit Clock) permitem editar a data e hora manualmente. As seguintes (Del. Freq. e Del. Volume) permitem apagar os valores guardados em flash. As duas últimas opções (Sync Clock e Connect WiFi) permitem sincronizar o relógio via NTP e reconectar o módulo Wi-Fi, respetivamente.
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="./report_assets/Picture2.png" width="250" alt="Menu Edit Calendar">
-      <br>
-      <em>Figura 2 – Menu: Edit Calendar e Edit Clock</em>
-    </td>
-    <td align="center">
-      <img src="./report_assets/Picture3.png" width="250" alt="Menu Del Freq">
-      <br>
-      <em>Figura 3 – Menu: Del. Freq e Del. Volume</em>
-    </td>
-    <td align="center">
-      <img src="./report_assets/Picture4.png" width="250" alt="Menu Sync Clock">
-      <br>
-      <em>Figura 4 – Menu: Sync Clock e Connect WiFi</em>
-    </td>
-  </tr>
-</table>
-
-##### 1.2.1.1 Edit Calendar e Edit Clock
-
-Ao selecionar a opção **Edit Calendar**, o LCD passa a mostrar a data completa no formato "Dia-da-semana DD MÊS AAAA", permitindo ao utilizador editar cada campo individualmente com os botões Left/Right (seleção do campo) e Up/Down (incremento/decremento). A opção **Edit Clock** funciona de forma análoga, mas para a hora, exibindo em formato "HH:MM:SS". Em ambos os casos, o botão Enter confirma e guarda as alterações na memória flash, enquanto o botão Back cancela sem guardar.
+O menu de manutenção é composto por três pares de opções navegáveis com os botões Up/Down. O cursor ">" na linha superior indica a opção atualmente selecionada. As primeiras duas opções (Edit Calendar e Edit Clock) permitem editar a data e hora manualmente. As seguintes (Del. Freq. e Del. Volume) permitem apagar os valores guardados em flash. As duas últimas opções (Sync Clock e Connect WiFi) permitem sincronizar o relógio via NTP e reconectar o módulo Wi-Fi, respetivamente. (<a href="#fig2">Figura 2</a>, <a href="#fig3">Figura 3</a> e <a href="#fig4">Figura 4</a>)
 
 <div align="center">
   <table>
     <tr>
       <td align="center">
+        <a name="fig2"></a>
+        <img src="./report_assets/Picture2.png" width="250" alt="Menu Edit Calendar">
+        <br>
+        <em>Figura 2 – Menu: Edit Calendar e Edit Clock</em>
+      </td>
+      <td align="center">
+        <a name="fig3"></a>
+        <img src="./report_assets/Picture3.png" width="250" alt="Menu Del Freq">
+        <br>
+        <em>Figura 3 – Menu: Del. Freq e Del. Volume</em>
+      </td>
+      <td align="center">
+        <a name="fig4"></a>
+        <img src="./report_assets/Picture4.png" width="250" alt="Menu Sync Clock">
+        <br>
+        <em>Figura 4 – Menu: Sync Clock e Connect WiFi</em>
+      </td>
+    </tr>
+  </table>
+</div>
+
+##### 1.2.1.1 Edit Calendar e Edit Clock
+
+Ao selecionar a opção **Edit Calendar**, o LCD passa a mostrar a data completa no formato "Dia-da-semana DD MÊS AAAA", permitindo ao utilizador editar cada campo individualmente com os botões Left/Right (seleção do campo) e Up/Down (incremento/decremento). A opção **Edit Clock** funciona de forma análoga, mas para a hora, exibindo em formato "HH:MM:SS". Em ambos os casos, o botão Enter confirma e guarda as alterações na memória flash, enquanto o botão Back cancela sem guardar. (<a href="#fig5">Figura 5</a> e <a href="#fig6">Figura 6</a>)
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a name="fig5"></a>
         <img src="./report_assets/Picture5.png" width="250" alt="Edit Calendar">
         <br>
         <em>Figura 5 – Edit Calendar</em>
       </td>
       <td align="center">
+        <a name="fig6"></a>
         <img src="./report_assets/Picture6.png" width="250" alt="Edit Clock">
         <br>
         <em>Figura 6 – Edit Clock</em>
@@ -132,27 +139,32 @@ Ao selecionar a opção **Edit Calendar**, o LCD passa a mostrar a data completa
 
 ##### 1.2.1.2 Sync Clock – Sincronização NTP
 
-A opção **Sync Clock** desencadeia uma sincronização manual do relógio via protocolo NTP. Durante o processo, o LCD exibe a mensagem "Synchronizing time…" enquanto o sistema abre um socket UDP para a pool.ntp.org na porta 123, envia o pacote de pedido NTP e aguarda a resposta. Após receber o timestamp do servidor, o sistema converte-o para hora local (UTC+1) e atualiza o RTC do LPC1769 em tempo real.
+A opção **Sync Clock** desencadeia uma sincronização manual do relógio via protocolo NTP. Durante o processo, o LCD exibe a mensagem "Synchronizing time…" enquanto o sistema abre um socket UDP para a pool.ntp.org na porta 123, envia o pacote de pedido NTP e aguarda a resposta. Após receber o timestamp do servidor, o sistema converte-o para hora local (UTC+1) e atualiza o RTC do LPC1769 em tempo real. (<a href="#fig7">Figura 7</a>)
 
 <div align="center">
+  <a name="fig7"></a>
   <img src="./report_assets/Picture7.png" width="250" alt="Synchronizing time">
   <br>
   <em>Figura 7 – LCD durante a sincronização NTP</em>
 </div>
 
+<br>
+
 ##### 1.2.1.3 Connect WiFi – Ligação ao Ponto de Acesso
 
-A opção **Connect WiFi** permite reconectar o módulo ESP8266 ao ponto de acesso configurado (SSID e password definidos em tempo de compilação). Durante o processo de ligação, o LCD apresenta "Connecting to AP: \<SSID\>…". Quando a ligação é estabelecida com sucesso, a mensagem muda para "Connected to AP: \<SSID\>", indicando que o módulo Wi-Fi está pronto para comunicar com o broker MQTT e o servidor NTP.
+A opção **Connect WiFi** permite reconectar o módulo ESP8266 ao ponto de acesso configurado (SSID e password definidos em tempo de compilação). Durante o processo de ligação, o LCD apresenta "Connecting to AP: \<SSID\>…". Quando a ligação é estabelecida com sucesso, a mensagem muda para "Connected to AP: \<SSID\>", indicando que o módulo Wi-Fi está pronto para comunicar com o broker MQTT e o servidor NTP. (<a href="#fig8">Figura 8</a> e <a href="#fig9">Figura 9</a>)
 
 <div align="center">
   <table>
     <tr>
       <td align="center">
+        <a name="fig8"></a>
         <img src="./report_assets/Picture8.png" width="250" alt="Connecting to AP">
         <br>
         <em>Figura 8 – Mensagem de Ligação ao AP</em>
       </td>
       <td align="center">
+        <a name="fig9"></a>
         <img src="./report_assets/Picture9.png" width="250" alt="Connected to AP">
         <br>
         <em>Figura 9 – Mensagem de Conectado ao AP</em>
@@ -179,11 +191,12 @@ A migração para FreeRTOS implicou decompor o loop principal sequencial numa co
 
 ### 2.1 Task de Inicialização
 
-A APP_Task é a primeira task do código e tem como objetivo inicializar todo o sistema antes de entrarmos no funcionamento normal. O diagrama da Figura 10 demonstra a sequência de inicialização: arranque da Display Task, arranque da Button Timer Task, inicialização do Wi-Fi (modo estação e ligação ao ponto de acesso) e tentativa de ligação ao servidor NTP.
+A APP_Task é a primeira task do código e tem como objetivo inicializar todo o sistema antes de entrarmos no funcionamento normal. O diagrama da <a href="#fig10">Figura 10</a> demonstra a sequência de inicialização: arranque da Display Task, arranque da Button Timer Task, inicialização do Wi-Fi (modo estação e ligação ao ponto de acesso) e tentativa de ligação ao servidor NTP.
 
 Caso a ligação NTP seja bem-sucedida, o RTC é inicializado com o tempo recebido do servidor. Em caso de falha, o sistema tenta inicializar o RTC com o tempo guardado previamente na memória flash; se esta informação também não existir, recorre ao *built-in time* como último recurso. Assim garantimos que o relógio tem sempre um valor válido, mesmo sem ligação à rede. Após a inicialização do RTC, é inicializado o módulo de rádio, arrancando assim a Publisher Task e, por fim, lança o Menu Principal, que corre indefinidamente.
 
 <div align="center">
+  <a name="fig10"></a>
   <img src="./report_assets/Picture10.png" width="600" alt="Fluxograma da APP_Task">
   <br>
   <em>Figura 10 – Fluxograma da APP_Task (Inicialização do sistema)</em>
@@ -193,9 +206,10 @@ Caso a ligação NTP seja bem-sucedida, o RTC é inicializado com o tempo recebi
 
 O LCD é um recurso partilhado. A abordagem escolhida foi implementar um *producer-consumer*: qualquer task que queira escrever no LCD envia um objeto do tipo `DISPLAY_Item` para uma fila (`xQueueSend`). A task DISPLAY_Manager consome os itens da fila e executa as operações no LCD. Esta abordagem elimina a necessidade de *mutex* no acesso ao LCD e permite que múltiplas tasks escrevam sem bloqueio.
 
-Como ilustrado na Figura 11, a task inicia por limpar o LCD e posicionar o cursor em (0, 0). Em seguida, verifica a *flag* de inicialização e recebe o próximo item da fila. O campo "id" de cada item é avaliado por um switch que o distingue entre quatro tipos de operação: `WRITE_STR` (escrita de string), `CURSOR_SET` (posicionar cursor), `WRITE_CMD` (comando direto) e `CLEAR` (limpar ecrã). Caso o identificador não corresponda a nenhum destes (`DEFAULT`), o item é ignorado e a task volta a aguardar por um novo.
+Como ilustrado na <a href="#fig11">Figura 11</a>, a task inicia por limpar o LCD e posicionar o cursor em (0, 0). Em seguida, verifica a *flag* de inicialização e recebe o próximo item da fila. O campo "id" de cada item é avaliado por um switch que o distingue entre quatro tipos de operação: `WRITE_STR` (escrita de string), `CURSOR_SET` (posicionar cursor), `WRITE_CMD` (comando direto) e `CLEAR` (limpar ecrã). Caso o identificador não corresponda a nenhum destes (`DEFAULT`), o item é ignorado e a task volta a aguardar por um novo.
 
 <div align="center">
+  <a name="fig11"></a>
   <img src="./report_assets/Picture11.png" width="600" alt="Fluxograma da Display Task">
   <br>
   <em>Figura 11 – Fluxograma da Display Task</em>
@@ -205,9 +219,10 @@ Como ilustrado na Figura 11, a task inicia por limpar o LCD e posicionar o curso
 
 A leitura dos botões é feita por um timer de 100ms (`BTN_SCAN_PERIOD_MS`). Na *callback* do timer, o estado dos botões é lido e, se algum estiver pressionado, o evento é colocado numa fila (`xQueueSend`). As tasks que precisam de input chamam `BUTTON_Pressed()` que tenta receber da fila, sem bloquear, retornando `NAVBTN_NONE` se não houver eventos pendentes.
 
-A Figura 12 demonstra a arquitetura descrita: numa primeira fase a task cria a fila (`xQueue`) e o temporizador (`xTimer`) iniciando-o. De seguida, o `xTimer` a cada iteração de 100ms chama `NavBTN_Pressed()` para verificar o estado dos botões. Se retornar `NAVBTN_NONE`, a execução do temporizador termina. Caso seja retornado `NAVBTN_*` (onde * corresponde ao botão pressionado), esse evento é enviado para a fila `xQueue`, ficando assim disponível para as tasks que aguardam algum input, como é o exemplo da MenuTask.
+A <a href="#fig12">Figura 12</a> demonstra a arquitetura descrita: numa primeira fase a task cria a fila (`xQueue`) e o temporizador (`xTimer`) iniciando-o. De seguida, o `xTimer` a cada iteração de 100ms chama `NavBTN_Pressed()` para verificar o estado dos botões. Se retornar `NAVBTN_NONE`, a execução do temporizador termina. Caso seja retornado `NAVBTN_*` (onde * corresponde ao botão pressionado), esse evento é enviado para a fila `xQueue`, ficando assim disponível para as tasks que aguardam algum input, como é o exemplo da MenuTask.
 
 <div align="center">
+  <a name="fig12"></a>
   <img src="./report_assets/Picture12.png" width="600" alt="Fluxograma da Button Timer Task">
   <br>
   <em>Figura 12 - Fluxograma da Button Timer Task</em>
@@ -235,20 +250,21 @@ O valor obtido é passado diretamente ao RTC via `CLOCK_SetSeconds()`, sincroniz
 
 A telemetria é publicada no broker MQTT com o token do dispositivo `"SEIOT-2025-2026-G08"`. A task Publisher implementa uma máquina de estados explícita com os seguintes estados:
 
-- **INIT** — conectar TCP;
-- **CONNECT** — enviar MQTT CONNECT;
-- **WAIT_CONNECT** — aguardar CONNACK;
-- **SUBSCRIBE** — subscrever tópico de atributos;
-- **SUBSCRIBE_SUBACK** — aguardar confirmação;
-- **SUBSCRIBE_RECEIVE** — aguardar mensagens;
-- **PUBLISH** — publicar telemetria.
+* **INIT** — conectar TCP;
+* **CONNECT** — enviar MQTT CONNECT;
+* **WAIT_CONNECT** — aguardar CONNACK;
+* **SUBSCRIBE** — subscrever tópico de atributos;
+* **SUBSCRIBE_SUBACK** — aguardar confirmação;
+* **SUBSCRIBE_RECEIVE** — aguardar mensagens;
+* **PUBLISH** — publicar telemetria.
 
 A cada 30 segundos (utilizando `DELAY_GetElapsedMillis`), o sistema publica no tópico `v1/devices/me/telemetry` um payload JSON com o volume atual e frequência de estação em MHz, e.g., `"volume:8, station:97.4"`.
 
-A camada de transporte usa a biblioteca MQTTPacket para serialização/deserialização dos pacotes MQTT, sobre um socket TCP gerido pelo wrapper WIFI_RTOS. Um buffer circular interno (`RECV_BUF_SIZE`) garante que dados recebidos em múltiplos fragmentos TCP são corretamente remontados.
+A camada de transporte usa a biblioteca MQTTPacket para serialização/deserialização dos pacotes MQTT, sobre um socket TCP gerido pelo wrapper WIFI_RTOS. Um buffer circular interno (`RECV_BUF_SIZE`) garante que dados recebidos em múltiplos fragmentos TCP são corretamente remontados. (<a href="#fig13">ver Figura 13</a>)
 
 <div align="center">
-  <img src="./report_assets/Picture13.png" width="600" alt="Fluxograma da Button Timer Task">
+  <a name="fig13"></a>
+  <img src="./report_assets/Picture13.png" width="600" alt="Fluxograma da Publisher Task">
   <br>
   <em>Figura 13 – Fluxograma da Publisher Task</em>
 </div>
@@ -257,19 +273,20 @@ A camada de transporte usa a biblioteca MQTTPacket para serialização/deseriali
 
 O menu de manutenção foi estendido com duas novas opções em relação ao semestre anterior, integrando assim as funcionalidades IoT na interface de utilizador existente:
 
-- **"Sync Clock"** → Desencadeia uma nova sincronização NTP manual, atualizando o RTC em tempo real;
-- **"Connect WiFi"** → Permite reconectar ao ponto de acesso configurado (SSID/password em tempo de compilação).
+* **"Sync Clock"** → Desencadeia uma nova sincronização NTP manual, atualizando o RTC em tempo real;
+* **"Connect WiFi"** → Permite reconectar ao ponto de acesso configurado (SSID/password em tempo de compilação).
 
 As restantes opções (Edit Calendar, Edit Clock, Del.Freq., Del. Volume) mantêm o comportamento do semestre anterior.
 
-A Figura 14 mostra o fluxograma completo da MenuTask, dividido em três blocos. No bloco **Main Menu**, o sistema mostra continuamente o dia, o volume, a hora e a frequência, simultaneamente verificando o estado dos botões: Up/Down altera o volume, Left/Right altera a frequência, Center guarda a frequência e o volume na flash, e Enter entra em Modo de Manutenção.
+A <a href="#fig14">Figura 14</a> mostra o fluxograma completo da MenuTask, dividido em três blocos. No bloco **Main Menu**, o sistema mostra continuamente o dia, o volume, a hora e a frequência, simultaneamente verificando o estado dos botões: Up/Down altera o volume, Left/Right altera a frequência, Center guarda a frequência e o volume na flash, e Enter entra em Modo de Manutenção.
 
 No bloco **Maintenance Mode**, o sistema apresenta as opções disponíveis, permitindo ao utilizador navegar entre elas com Up/Down. Ao premir Enter, seleciona a opção: Edit Clock, Edit Calendar, Del. Volume, Del. Freq., Sync Clock ou Connect WiFi. Todas estas ações após utilizadas convergem em Exit Maintenance Mode, regressando ao Main Menu.
 
 Por fim, o bloco **Sync Clock** demonstra o procedimento de sincronização NTP descrito anteriormente.
 
 <div align="center">
-  <img src="./report_assets/Picture14.png" width="600" alt="Fluxograma da Button Timer Task">
+  <a name="fig14"></a>
+  <img src="./report_assets/Picture14.png" width="600" alt="Fluxograma da MenuTask">
   <br>
   <em>Figura 14 – Fluxograma da MenuTask</em>
 </div>
@@ -278,10 +295,11 @@ Por fim, o bloco **Sync Clock** demonstra o procedimento de sincronização NTP 
 
 ## 3. Diagrama de Blocos do Projeto
 
-O hardware base é idêntico ao do semestre anterior: LPC1769 como microcontrolador, Módulo Radio FM RDA5807 por I2C, LCD de 8 bits, módulo Nav7Btn com 7 botões e conversor StepUp para alimentação do LCD. Como novidade, temos a adição do módulo ESP8266 conectado ao LPC1769 por UART.
+O hardware base é idêntico ao do semestre anterior: LPC1769 como microcontrolador, Módulo Radio FM RDA5807 por I2C, LCD de 8 bits, módulo Nav7Btn com 7 botões e conversor StepUp para alimentação do LCD. Como novidade, temos a adição do módulo ESP8266 conectado ao LPC1769 por UART. (<a href="#fig15">ver Figura 15</a>)
 
 <div align="center">
-  <img src="./report_assets/Picture15.png" width="600" alt="Fluxograma da Button Timer Task">
+  <a name="fig15"></a>
+  <img src="./report_assets/Picture15.png" width="600" alt="Diagrama de Blocos do Projeto">
   <br>
   <em>Figura 15 – Diagrama de Blocos do Projeto</em>
 </div>
@@ -302,12 +320,15 @@ A arquitetura do semestre anterior foi conservada e estendida com uma nova camad
 | **CMSIS-CORE + FreeRTOS** | `core_cm3`, `LPC17xx`, FreeRTOS kernel (tasks, queues, semaphores, timers) |
 | **Hardware** | LPC1769, RDA5807M, LCD MC1602C, Nav7Btn, ESP8266, Flash interna |
 
+<br>
+
 #### 3.1.1 Fluxo de Comunicação IoT
 
-O diagrama seguinte resume o fluxo de comunicação entre os componentes IoT do sistema implementado.
+O diagrama seguinte (<a href="#fig16">ver Figura 16</a>) resume o fluxo de comunicação entre os componentes IoT do sistema implementado.
 
 <div align="center">
-  <img src="./report_assets/Picture16.png" width="600" alt="Fluxograma da Button Timer Task">
+  <a name="fig16"></a>
+  <img src="./report_assets/Picture16.png" width="600" alt="Diagrama de Fluxo de Comunicação IoT">
   <br>
   <em>Figura 16 – Diagrama de Fluxo de Comunicação IoT</em>
 </div>
