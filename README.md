@@ -111,20 +111,22 @@ O menu de manutenção é composto por três pares de opções navegáveis com o
 
 Ao selecionar a opção **Edit Calendar**, o LCD passa a mostrar a data completa no formato "Dia-da-semana DD MÊS AAAA", permitindo ao utilizador editar cada campo individualmente com os botões Left/Right (seleção do campo) e Up/Down (incremento/decremento). A opção **Edit Clock** funciona de forma análoga, mas para a hora, exibindo em formato "HH:MM:SS". Em ambos os casos, o botão Enter confirma e guarda as alterações na memória flash, enquanto o botão Back cancela sem guardar.
 
-<table>
-  <tr>
-    <td align="center">
-      <img src="./report_assets/Picture5.png" width="350" alt="Edit Calendar">
-      <br>
-      <em>Figura 5 – Edit Calendar</em>
-    </td>
-    <td align="center">
-      <img src="./report_assets/Picture6.png" width="350" alt="Edit Clock">
-      <br>
-      <em>Figura 6 – Edit Clock</em>
-    </td>
-  </tr>
-</table>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="./report_assets/Picture5.png" width="250" alt="Edit Calendar">
+        <br>
+        <em>Figura 5 – Edit Calendar</em>
+      </td>
+      <td align="center">
+        <img src="./report_assets/Picture6.png" width="250" alt="Edit Clock">
+        <br>
+        <em>Figura 6 – Edit Clock</em>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ##### 1.2.1.2 Sync Clock – Sincronização NTP
 
